@@ -30,6 +30,8 @@ public class SpreadsheetHelper {
     
     private final static Logger LOGGER = LogManager.getLogger();
     
+    private static Sheets sheetsService = null;
+    
     private static Credential authorize() throws IOException, GeneralSecurityException {
     
         InputStream inputStream = new FileInputStream( "." + File.separator + LastPlayedLogger.MODID + File.separator +
@@ -45,17 +47,19 @@ public class SpreadsheetHelper {
             new LocalServerReceiver() ).authorize( "user" );
     }
     
-    private static Sheets getSheetsService() throws IOException, GeneralSecurityException {
+    public static void initSheetsService() throws IOException, GeneralSecurityException {
         
-        Credential credential = authorize();
-        return new Sheets.Builder( GoogleNetHttpTransport.newTrustedTransport(), JacksonFactory.getDefaultInstance(),
-            credential ).setApplicationName( ModConfig.getModName() ).build();
+        if( sheetsService == null ) {
+            Credential credential = authorize();
+            sheetsService = new Sheets.Builder( GoogleNetHttpTransport.newTrustedTransport(),
+                JacksonFactory.getDefaultInstance(), credential ).setApplicationName( ModConfig.getModName() ).build();
+        }
     }
     
     public static void insertOrUpdateUser( String playerName ) {
     
         try {
-            Sheets sheetsService = getSheetsService();
+            initSheetsService();
             String range = ModConfig.getTabName();
             int index = -1;
     
@@ -73,14 +77,14 @@ public class SpreadsheetHelper {
             }
             if( index > 0 ) {
                 ValueRange body = new ValueRange().setValues( Collections.singletonList( Collections.singletonList(
-                    LocalDate.now().format( DateTimeFormatter.ofPattern( "dd.MM.YYYY" ) ) ) ) );
+                    LocalDate.now().format( DateTimeFormatter.ofPattern( "dd.MM.yyyy" ) ) ) ) );
                 //noinspection StringConcatenationMissingWhitespace
                 sheetsService.spreadsheets().values().update( ModConfig.getSpreadsheetID(), range + "!B" + index,
                     body ).setValueInputOption( "USER_ENTERED" ).execute();
                 
             } else {
                 ValueRange appendBody = new ValueRange().setValues( Collections.singletonList( Arrays.asList(
-                    playerName, LocalDate.now().format( DateTimeFormatter.ofPattern( "dd.MM.YYYY" ) ) ) ) );
+                    playerName, LocalDate.now().format( DateTimeFormatter.ofPattern( "dd.MM.yyyy" ) ) ) ) );
                 sheetsService.spreadsheets().values().append( ModConfig.getSpreadsheetID(), range, appendBody )
                     .setValueInputOption( "USER_ENTERED" ).setInsertDataOption( "INSERT_ROWS" )
                     .setIncludeValuesInResponse( false ).execute();

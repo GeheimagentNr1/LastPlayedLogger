@@ -25,8 +25,9 @@ public class ForgeEventHandler {
     @SubscribeEvent
     public static void handlePlayerLoggedInEvent( PlayerEvent.PlayerLoggedInEvent event ) {
     
-        if( ServerLifecycleHooks.getCurrentServer().isDedicatedServer() && ModConfig.getActiv() ) {
-            SpreadsheetHelper.insertOrUpdateUser( event.getPlayer().getGameProfile().getName() );
+        if( ServerLifecycleHooks.getCurrentServer().isDedicatedServer() && ModConfig.getActive() ) {
+            new Thread( () -> SpreadsheetHelper.insertOrUpdateUser( event.getPlayer().getGameProfile().getName() ) )
+                .start();
         }
     }
 }

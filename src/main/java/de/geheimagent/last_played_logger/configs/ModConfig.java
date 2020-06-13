@@ -20,7 +20,7 @@ public class ModConfig {
     
     private final static ForgeConfigSpec CONFIG;
     
-    private final static ForgeConfigSpec.BooleanValue ACTIV;
+    private final static ForgeConfigSpec.BooleanValue ACTIVE;
     
     private final static ForgeConfigSpec.ConfigValue<String> SPREADSHEETID;
     
@@ -28,7 +28,7 @@ public class ModConfig {
     
     static {
         
-        ACTIV = BUILDER.comment( "Shall the mod be activ or not?" ).define( "activ", false );
+        ACTIVE = BUILDER.comment( "Shall the mod be active or not?" ).define( "active", false );
         SPREADSHEETID = BUILDER.comment( "ID of the Spreadsheet." ).define( "spreadsheetID", "" );
         TAB_NAME = BUILDER.comment( "Name of the Spreadsheet tab." ).define( "tab_name", "" );
         
@@ -43,7 +43,7 @@ public class ModConfig {
         LOGGER.info( "Loading \"{}\" Config", mod_name );
         configData.load();
         CONFIG.setConfig( configData );
-        LOGGER.info( "{} = {}", ACTIV.getPath(), ACTIV.get() );
+        LOGGER.info( "{} = {}", ACTIVE.getPath(), ACTIVE.get() );
         LOGGER.info( "{} = {}", SPREADSHEETID.getPath(), SPREADSHEETID.get() );
         LOGGER.info( "{} = {}", TAB_NAME.getPath(), TAB_NAME.get() );
         LOGGER.info( "\"{}\" Config loaded", mod_name );
@@ -54,9 +54,9 @@ public class ModConfig {
         return mod_name;
     }
     
-    public static boolean getActiv() {
+    public static boolean getActive() {
         
-        return ACTIV.get();
+        return ACTIVE.get();
     }
     
     public static String getSpreadsheetID() {
@@ -68,8 +68,4 @@ public class ModConfig {
         
         return TAB_NAME.get();
     }
-    
-    //on/off
-    //SpreadsheetID
-    //tab_name
 }

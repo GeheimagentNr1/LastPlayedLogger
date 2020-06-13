@@ -29,7 +29,7 @@ displayName="Last Played Logger" #mandatory
 authors="Geheimagent" #optional
 # The description text for the mod (multi line!) (#mandatory)
 description='''
-Mod that logs the last Date a player was online to a google spreadsheet
+Mod that logs the last date a player was online to a Google spreadsheet
 '''
 # A dependency - use the . to indicate dependency for a specific modid. Dependencies are optional.
 [[dependencies.last_played_logger]] #optional

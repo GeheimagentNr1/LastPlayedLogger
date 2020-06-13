@@ -38,9 +38,9 @@ public class SpreadsheetHelper {
             "credentials.json" );
         GoogleClientSecrets clientSecrets = GoogleClientSecrets.load( JacksonFactory.getDefaultInstance(),
             new InputStreamReader( inputStream ) );
-        List<String> spopes = Collections.singletonList( SheetsScopes.SPREADSHEETS );
+        List<String> scopes = Collections.singletonList( SheetsScopes.SPREADSHEETS );
         GoogleAuthorizationCodeFlow googleAuthorizationCodeFlow = new GoogleAuthorizationCodeFlow.Builder(
-            GoogleNetHttpTransport.newTrustedTransport(), JacksonFactory.getDefaultInstance(), clientSecrets, spopes )
+            GoogleNetHttpTransport.newTrustedTransport(), JacksonFactory.getDefaultInstance(), clientSecrets, scopes )
             .setDataStoreFactory( new FileDataStoreFactory( new File( LastPlayedLogger.MODID ) ) )
             .setAccessType( "offline" ).build();
         return new AuthorizationCodeInstalledApp( googleAuthorizationCodeFlow,

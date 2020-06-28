@@ -26,7 +26,7 @@ displayName="Last Played Logger" #mandatory
 # A text field displayed in the mod UI
 #credits="Thanks for this example mod goes to Java" #optional
 # A text field displayed in the mod UI
-authors="Geheimagent" #optional
+authors="GeheimagentNr1" #optional
 # The description text for the mod (multi line!) (#mandatory)
 description='''
 Mod that logs the last date a player was online to a Google spreadsheet

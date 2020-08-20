@@ -12,22 +12,22 @@ import net.minecraftforge.fml.server.ServerLifecycleHooks;
 @SuppressWarnings( "unused" )
 @Mod.EventBusSubscriber( bus = Mod.EventBusSubscriber.Bus.FORGE )
 public class ForgeEventHandler {
-    
-    
-    @SubscribeEvent
-    public static void handleServerStarted( FMLServerStartedEvent event ) {
-        
-        if( event.getServer().isDedicatedServer() ) {
-            SpreadsheetHelper.initSheetsService();
-        }
-    }
-    
-    @SubscribeEvent
-    public static void handlePlayerLoggedInEvent( PlayerEvent.PlayerLoggedInEvent event ) {
-    
-        if( ServerLifecycleHooks.getCurrentServer().isDedicatedServer() && MainConfig.getActive() ) {
-            new Thread( () -> SpreadsheetHelper.insertOrUpdateUser( event.getPlayer().getGameProfile().getName() ) )
-                .start();
-        }
-    }
+	
+	
+	@SubscribeEvent
+	public static void handleServerStarted( FMLServerStartedEvent event ) {
+		
+		if( event.getServer().isDedicatedServer() ) {
+			SpreadsheetHelper.initSheetsService();
+		}
+	}
+	
+	@SubscribeEvent
+	public static void handlePlayerLoggedInEvent( PlayerEvent.PlayerLoggedInEvent event ) {
+		
+		if( ServerLifecycleHooks.getCurrentServer().isDedicatedServer() && MainConfig.getActive() ) {
+			new Thread( () -> SpreadsheetHelper.insertOrUpdateUser( event.getPlayer().getGameProfile().getName() ) )
+				.start();
+		}
+	}
 }

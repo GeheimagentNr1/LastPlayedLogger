@@ -3,28 +3,31 @@ package de.geheimagent.last_played_logger.configs;
 import com.electronwill.nightconfig.core.file.CommentedFileConfig;
 import com.electronwill.nightconfig.core.io.WritingMode;
 import de.geheimagent.last_played_logger.LastPlayedLogger;
+import de.geheimagent.last_played_logger.google_integration.SpreadsheetHelper;
+import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.fml.loading.FMLPaths;
+import net.minecraftforge.fml.server.ServerLifecycleHooks;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 
-public class ModConfig {
+public class MainConfig {
     
     
-    private final static Logger LOGGER = LogManager.getLogger();
+    private static final Logger LOGGER = LogManager.getLogger();
     
-    private final static String mod_name = "Last Played Logger";
+    private static final String mod_name = "Last Played Logger";
     
-    private final static ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
+    private static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
     
-    private final static ForgeConfigSpec CONFIG;
+    public static final ForgeConfigSpec CONFIG;
     
-    private final static ForgeConfigSpec.BooleanValue ACTIVE;
+    private static final ForgeConfigSpec.BooleanValue ACTIVE;
     
-    private final static ForgeConfigSpec.ConfigValue<String> SPREADSHEETID;
+    private static final ForgeConfigSpec.ConfigValue<String> SPREADSHEETID;
     
-    private final static ForgeConfigSpec.ConfigValue<String> TAB_NAME;
+    private static final ForgeConfigSpec.ConfigValue<String> TAB_NAME;
     
     static {
         
@@ -35,7 +38,17 @@ public class ModConfig {
         CONFIG = BUILDER.build();
     }
     
-    public static void load() {
+    public static void handleConfigChange() {
+    
+        MinecraftServer minecraftServer = ServerLifecycleHooks.getCurrentServer();
+        
+        if( minecraftServer != null && minecraftServer.isDedicatedServer() ) {
+            SpreadsheetHelper.initSheetsService();
+        }
+        printConfig();
+    }
+    
+    private static void printConfig() {
     
         CommentedFileConfig configData = CommentedFileConfig.builder( FMLPaths.CONFIGDIR.get().resolve(
             LastPlayedLogger.MODID + ".toml" ) ).sync().autosave().writingMode( WritingMode.REPLACE ).build();

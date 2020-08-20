@@ -81,7 +81,7 @@ minecraft {
             // Recommended logging level for the console
             property 'forge.logging.console.level', 'debug'
 
-            args '--mod', '${mod_id}', '--all', '--output', file('src/generated/resources/')
+            args '--mod', 'last_played_logger', '--all', '--output', file('src/generated/resources/')
 
             mods {
                 last_played_logger {

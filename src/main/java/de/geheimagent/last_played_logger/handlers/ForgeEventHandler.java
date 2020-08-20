@@ -1,6 +1,6 @@
 package de.geheimagent.last_played_logger.handlers;
 
-import de.geheimagent.last_played_logger.configs.ModConfig;
+import de.geheimagent.last_played_logger.configs.MainConfig;
 import de.geheimagent.last_played_logger.google_integration.SpreadsheetHelper;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -18,14 +18,14 @@ public class ForgeEventHandler {
     public static void handleServerStarted( FMLServerStartedEvent event ) {
         
         if( event.getServer().isDedicatedServer() ) {
-            ModConfig.load();
+            SpreadsheetHelper.initSheetsService();
         }
     }
     
     @SubscribeEvent
     public static void handlePlayerLoggedInEvent( PlayerEvent.PlayerLoggedInEvent event ) {
     
-        if( ServerLifecycleHooks.getCurrentServer().isDedicatedServer() && ModConfig.getActive() ) {
+        if( ServerLifecycleHooks.getCurrentServer().isDedicatedServer() && MainConfig.getActive() ) {
             new Thread( () -> SpreadsheetHelper.insertOrUpdateUser( event.getPlayer().getGameProfile().getName() ) )
                 .start();
         }

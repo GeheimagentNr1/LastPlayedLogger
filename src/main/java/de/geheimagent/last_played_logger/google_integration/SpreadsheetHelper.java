@@ -60,6 +60,8 @@ public class SpreadsheetHelper {
 				} catch( IOException | GeneralSecurityException exception ) {
 					LOGGER.error( "Spreadsheet interaction failed", exception );
 				}
+			} else {
+				sheetsService = null;
 			}
 		}
 	}

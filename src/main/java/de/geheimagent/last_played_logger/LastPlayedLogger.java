@@ -9,12 +9,12 @@ import net.minecraftforge.fml.config.ModConfig;
 @SuppressWarnings( { "UtilityClassWithPublicConstructor", "unused" } )
 @Mod( LastPlayedLogger.MODID )
 public class LastPlayedLogger {
-    
-    
-    public static final String MODID = "last_played_logger";
-    
-    public LastPlayedLogger() {
-    
-        ModLoadingContext.get().registerConfig( ModConfig.Type.COMMON, MainConfig.CONFIG, MODID + ".toml" );
-    }
+	
+	
+	public static final String MODID = "last_played_logger";
+	
+	public LastPlayedLogger() {
+		
+		ModLoadingContext.get().registerConfig( ModConfig.Type.COMMON, MainConfig.CONFIG, MODID + ".toml" );
+	}
 }

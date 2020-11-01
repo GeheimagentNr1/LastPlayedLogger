@@ -25,7 +25,6 @@ import java.util.Collections;
 import java.util.List;
 
 
-@SuppressWarnings( "SynchronizationOnStaticField" )
 public class SpreadsheetHelper {
 	
 	
@@ -48,63 +47,59 @@ public class SpreadsheetHelper {
 			new LocalServerReceiver() ).authorize( "user" );
 	}
 	
-	public static void initSheetsService() {
+	public static synchronized void initSheetsService() {
 		
-		synchronized( LOGGER ) {
-			if( MainConfig.getActive() ) {
-				try {
-					Credential credential = authorize();
-					sheetsService = new Sheets.Builder( GoogleNetHttpTransport.newTrustedTransport(),
-						JacksonFactory.getDefaultInstance(), credential ).setApplicationName( MainConfig.getModName() )
-						.build();
-				} catch( IOException | GeneralSecurityException exception ) {
-					LOGGER.error( "Spreadsheet interaction failed", exception );
-				}
-			} else {
-				sheetsService = null;
+		if( MainConfig.getActive() ) {
+			try {
+				Credential credential = authorize();
+				sheetsService = new Sheets.Builder( GoogleNetHttpTransport.newTrustedTransport(),
+					JacksonFactory.getDefaultInstance(), credential ).setApplicationName( MainConfig.getModName() )
+					.build();
+			} catch( IOException | GeneralSecurityException exception ) {
+				LOGGER.error( "Spreadsheet interaction failed", exception );
 			}
+		} else {
+			sheetsService = null;
 		}
 	}
 	
-	public static void insertOrUpdateUser( String playerName ) {
+	public static synchronized void insertOrUpdateUser( String playerName ) {
 		
-		synchronized( LOGGER ) {
-			if( sheetsService == null ) {
-				return;
-			}
-			try {
-				String range = MainConfig.getTabName();
-				int index = -1;
-				
-				ValueRange responce = sheetsService.spreadsheets().values().get( MainConfig.getSpreadsheetID(), range )
-					.execute();
-				List<List<Object>> users = responce.getValues();
-				if( users != null ) {
-					for( int i = 0; i < users.size(); i++ ) {
-						List<Object> user = users.get( i );
-						if( playerName.equals( user.get( 0 ) ) ) {
-							index = i + 1;
-							break;
-						}
+		if( sheetsService == null ) {
+			return;
+		}
+		try {
+			String range = MainConfig.getTabName();
+			int index = -1;
+			
+			ValueRange responce = sheetsService.spreadsheets().values().get( MainConfig.getSpreadsheetID(), range )
+				.execute();
+			List<List<Object>> users = responce.getValues();
+			if( users != null ) {
+				for( int i = 0; i < users.size(); i++ ) {
+					List<Object> user = users.get( i );
+					if( playerName.equals( user.get( 0 ) ) ) {
+						index = i + 1;
+						break;
 					}
 				}
-				if( index > 0 ) {
-					ValueRange body = new ValueRange().setValues( Collections.singletonList( Collections.singletonList(
-						LocalDate.now().format( DateTimeFormatter.ofPattern( "dd.MM.yyyy" ) ) ) ) );
-					//noinspection StringConcatenationMissingWhitespace
-					sheetsService.spreadsheets().values().update( MainConfig.getSpreadsheetID(), range + "!B" + index,
-						body ).setValueInputOption( "USER_ENTERED" ).execute();
-					
-				} else {
-					ValueRange appendBody = new ValueRange().setValues( Collections.singletonList( Arrays.asList(
-						playerName, LocalDate.now().format( DateTimeFormatter.ofPattern( "dd.MM.yyyy" ) ) ) ) );
-					sheetsService.spreadsheets().values().append( MainConfig.getSpreadsheetID(), range, appendBody )
-						.setValueInputOption( "USER_ENTERED" ).setInsertDataOption( "INSERT_ROWS" )
-						.setIncludeValuesInResponse( false ).execute();
-				}
-			} catch( IOException exception ) {
-				LOGGER.error( "Spreadsheet interaction failed", exception );
 			}
+			if( index > 0 ) {
+				ValueRange body = new ValueRange().setValues( Collections.singletonList( Collections.singletonList(
+					LocalDate.now().format( DateTimeFormatter.ofPattern( "dd.MM.yyyy" ) ) ) ) );
+				//noinspection StringConcatenationMissingWhitespace
+				sheetsService.spreadsheets().values().update( MainConfig.getSpreadsheetID(), range + "!B" + index,
+					body ).setValueInputOption( "USER_ENTERED" ).execute();
+				
+			} else {
+				ValueRange appendBody = new ValueRange().setValues( Collections.singletonList( Arrays.asList(
+					playerName, LocalDate.now().format( DateTimeFormatter.ofPattern( "dd.MM.yyyy" ) ) ) ) );
+				sheetsService.spreadsheets().values().append( MainConfig.getSpreadsheetID(), range, appendBody )
+					.setValueInputOption( "USER_ENTERED" ).setInsertDataOption( "INSERT_ROWS" )
+					.setIncludeValuesInResponse( false ).execute();
+			}
+		} catch( IOException exception ) {
+			LOGGER.error( "Spreadsheet interaction failed", exception );
 		}
 	}
 }

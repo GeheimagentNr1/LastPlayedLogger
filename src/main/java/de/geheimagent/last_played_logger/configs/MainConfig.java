@@ -1,12 +1,8 @@
 package de.geheimagent.last_played_logger.configs;
 
-import com.electronwill.nightconfig.core.file.CommentedFileConfig;
-import com.electronwill.nightconfig.core.io.WritingMode;
-import de.geheimagent.last_played_logger.LastPlayedLogger;
 import de.geheimagent.last_played_logger.google_integration.SpreadsheetHelper;
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.fml.loading.FMLPaths;
 import net.minecraftforge.fml.server.ServerLifecycleHooks;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -50,12 +46,7 @@ public class MainConfig {
 	
 	private static void printConfig() {
 		
-		CommentedFileConfig configData = CommentedFileConfig.builder( FMLPaths.CONFIGDIR.get().resolve(
-			LastPlayedLogger.MODID + ".toml" ) ).sync().autosave().writingMode( WritingMode.REPLACE ).build();
-		
 		LOGGER.info( "Loading \"{}\" Config", mod_name );
-		configData.load();
-		CONFIG.setConfig( configData );
 		LOGGER.info( "{} = {}", ACTIVE.getPath(), ACTIVE.get() );
 		LOGGER.info( "{} = {}", SPREADSHEETID.getPath(), SPREADSHEETID.get() );
 		LOGGER.info( "{} = {}", TAB_NAME.getPath(), TAB_NAME.get() );

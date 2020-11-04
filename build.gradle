@@ -77,7 +77,8 @@ minecraft {
             // Recommended logging level for the console
             property 'forge.logging.console.level', 'debug'
 
-            args '--mod', 'last_played_logger', '--all', '--output', file('src/generated/resources/')
+            // Specify the modid for data generation, where to output the resulting resource, and where to look for existing resources.
+            args '--mod', 'last_played_logger', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
 
             mods {
                 last_played_logger {
@@ -104,13 +105,13 @@ dependencies {
     implementation( 'com.google.guava:guava:21.0' ) {
         force = true
     }
-    shadow 'com.google.api-client:google-api-client:1.30.4'
-    shadow 'com.google.oauth-client:google-oauth-client-jetty:1.30.4'
-    shadow 'com.google.apis:google-api-services-sheets:v4-rev612-1.25.0'
+    shadow "com.google.api-client:google-api-client:${google_api_client_version}"
+    shadow "com.google.oauth-client:google-oauth-client-jetty:${google_oauth_client_jetty_version}"
+    shadow "com.google.apis:google-api-services-sheets:${google_api_services_sheets_version}"
 
-    runtimeOnly 'com.google.api-client:google-api-client:1.30.4'
-    runtimeOnly 'com.google.oauth-client:google-oauth-client-jetty:1.30.4'
-    runtimeOnly 'com.google.apis:google-api-services-sheets:v4-rev612-1.25.0'
+    runtimeOnly "com.google.api-client:google-api-client:${google_api_client_version}"
+    runtimeOnly "com.google.oauth-client:google-oauth-client-jetty:${google_oauth_client_jetty_version}"
+    runtimeOnly "com.google.apis:google-api-services-sheets:${google_api_services_sheets_version}"
 }
 
 shadowJar {
@@ -168,13 +169,13 @@ jar {
     classifier "slim"
     manifest {
         attributes([
-                "Specification-Title": "${mod_id}",
-                "Specification-Vendor": "${modder}",
-                "Specification-Version": "1", // We are version 1 of ourselves
-                "Implementation-Title": project.name,
-                "Implementation-Version": "${version}",
-                "Implementation-Vendor" :"${modder}",
-                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+            "Specification-Title": "${mod_id}",
+            "Specification-Vendor": "${modder}",
+            "Specification-Version": "1", // We are version 1 of ourselves
+            "Implementation-Title": project.name,
+            "Implementation-Version": "${version}",
+            "Implementation-Vendor" :"${modder}",
+            "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
         ])
     }
 }

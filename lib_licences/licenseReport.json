@@ -35,7 +35,7 @@
   {
     "project": "Apache Commons Codec",
     "description": "The Apache Commons Codec package contains simple encoder and decoders for\n     various formats such as Base64 and Hexadecimal.  In addition to these\n     widely used encoders and decoders, the codec package also maintains a\n     collection of phonetic encoding utilities.",
-    "version": "1.10",
+    "version": "1.11",
     "developers": [
       "Henri Yandell",
       "Tim OBrien",
@@ -53,10 +53,10 @@
     "licenses": [
       {
         "license": "Apache License, Version 2.0",
-        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+        "license_url": "https://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "commons-codec:commons-codec:1.10"
+    "dependency": "commons-codec:commons-codec:1.11"
   },
   {
     "project": "Apache Commons Compress",
@@ -145,24 +145,63 @@
     "dependency": "org.apache.commons:commons-lang3:3.8.1"
   },
   {
+    "project": "Apache Commons Logging",
+    "description": "Apache Commons Logging is a thin adapter allowing configurable bridging to other,\n    well known logging systems.",
+    "version": "1.2",
+    "developers": [
+      "Juozas Baliuka",
+      "Morgan Delagrange",
+      "Peter Donald",
+      "Robert Burrell Donkin",
+      "Simon Kitching",
+      "Dennis Lundberg",
+      "Costin Manolache",
+      "Craig McClanahan",
+      "Thomas Neidhart",
+      "Scott Sanders",
+      "Richard Sitze",
+      "Brian Stansberry",
+      "Rodney Waldhoff"
+    ],
+    "url": "http://commons.apache.org/proper/commons-logging/",
+    "year": "2001",
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "commons-logging:commons-logging:1.2"
+  },
+  {
     "project": "Apache HttpClient",
-    "description": "HttpComponents Client",
-    "version": "4.3.3",
+    "description": "Apache HttpComponents Client",
+    "version": "4.5.10",
     "developers": [],
     "url": "http://hc.apache.org/httpcomponents-client",
     "year": null,
-    "licenses": [],
-    "dependency": "org.apache.httpcomponents:httpclient:4.3.3"
+    "licenses": [
+      {
+        "license": "Apache License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "org.apache.httpcomponents:httpclient:4.5.10"
   },
   {
     "project": "Apache HttpCore",
-    "description": "HttpComponents Core (blocking I/O)",
-    "version": "4.3.2",
+    "description": "Apache HttpComponents Core (blocking I/O)",
+    "version": "4.4.12",
     "developers": [],
     "url": "http://hc.apache.org/httpcomponents-core-ga",
     "year": "2005",
-    "licenses": [],
-    "dependency": "org.apache.httpcomponents:httpcore:4.3.2"
+    "licenses": [
+      {
+        "license": "Apache License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "org.apache.httpcomponents:httpcore:4.4.12"
   },
   {
     "project": "Apache Log4j API",
@@ -337,35 +376,6 @@
     "dependency": "net.java.jutils:jutils:1.0.0"
   },
   {
-    "project": "Commons Logging",
-    "description": "Commons Logging is a thin adapter allowing configurable bridging to other,\n    well known logging systems.",
-    "version": "1.1.3",
-    "developers": [
-      "Juozas Baliuka",
-      "Morgan Delagrange",
-      "Peter Donald",
-      "Robert Burrell Donkin",
-      "Simon Kitching",
-      "Dennis Lundberg",
-      "Costin Manolache",
-      "Craig McClanahan",
-      "Thomas Neidhart",
-      "Scott Sanders",
-      "Richard Sitze",
-      "Brian Stansberry",
-      "Rodney Waldhoff"
-    ],
-    "url": "http://commons.apache.org/proper/commons-logging/",
-    "year": "2001",
-    "licenses": [
-      {
-        "license": "The Apache Software License, Version 2.0",
-        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
-      }
-    ],
-    "dependency": "commons-logging:commons-logging:1.1.3"
-  },
-  {
     "project": "Core Mods",
     "description": "Core modding framework for use with forge",
     "version": "1.0.0",
@@ -470,6 +480,66 @@
     "dependency": "net.minecraftforge:forgespi:1.5.0"
   },
   {
+    "project": "Google APIs Client Library for Java",
+    "description": null,
+    "version": "1.30.4",
+    "developers": [],
+    "url": null,
+    "year": null,
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "com.google.api-client:google-api-client:1.30.4"
+  },
+  {
+    "project": "Google HTTP Client Library for Java",
+    "description": "Google HTTP Client Library for Java. Functionality that works on all supported Java platforms,\n    including Java 7 (or higher) desktop (SE) and web (EE), Android, and Google App Engine.",
+    "version": "1.32.1",
+    "developers": [],
+    "url": null,
+    "year": null,
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "com.google.http-client:google-http-client:1.32.1"
+  },
+  {
+    "project": "Google OAuth Client Library for Java",
+    "description": "Google OAuth Client Library for Java. Functionality that works on all supported Java platforms,\n    including Java 7 (or higher) desktop (SE) and web (EE), Android, and Google App Engine.",
+    "version": "1.30.4",
+    "developers": [],
+    "url": null,
+    "year": null,
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "https://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "com.google.oauth-client:google-oauth-client:1.30.4"
+  },
+  {
+    "project": "Google Sheets API v4-rev612-1.25.0",
+    "description": null,
+    "version": "v4-rev612-1.25.0",
+    "developers": [],
+    "url": null,
+    "year": "2011",
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "com.google.apis:google-api-services-sheets:v4-rev612-1.25.0"
+  },
+  {
     "project": "Grotesque Java 9 Hacks",
     "description": "Grotesque Java 9 Hacks to allow modlauncher to function",
     "version": "1.1.0",
@@ -536,6 +606,83 @@
     "dependency": "com.ibm.icu:icu4j-core-mojang:51.2"
   },
   {
+    "project": "io.grpc:grpc-context",
+    "description": "gRPC: Context",
+    "version": "1.22.1",
+    "developers": [
+      "gRPC Contributors"
+    ],
+    "url": "https://github.com/grpc/grpc-java",
+    "year": null,
+    "licenses": [
+      {
+        "license": "Apache 2.0",
+        "license_url": "https://opensource.org/licenses/Apache-2.0"
+      }
+    ],
+    "dependency": "io.grpc:grpc-context:1.22.1"
+  },
+  {
+    "project": "J2ObjC Annotations",
+    "description": "A set of annotations that provide additional information to the J2ObjC\n    translator to modify the result of translation.",
+    "version": "1.3",
+    "developers": [],
+    "url": "https://github.com/google/j2objc/",
+    "year": null,
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "com.google.j2objc:j2objc-annotations:1.3"
+  },
+  {
+    "project": "Jackson 2 extensions to the Google HTTP Client Library for Java.",
+    "description": null,
+    "version": "1.32.1",
+    "developers": [],
+    "url": null,
+    "year": null,
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "com.google.http-client:google-http-client-jackson2:1.32.1"
+  },
+  {
+    "project": "Jackson-core",
+    "description": "Core Jackson processing abstractions (aka Streaming API), implementation for JSON",
+    "version": "2.9.9",
+    "developers": [],
+    "url": "https://github.com/FasterXML/jackson-core",
+    "year": "2008",
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "com.fasterxml.jackson.core:jackson-core:2.9.9"
+  },
+  {
+    "project": "Java 6 (and higher) extensions to the Google OAuth Client Library for Java.",
+    "description": null,
+    "version": "1.30.4",
+    "developers": [],
+    "url": null,
+    "year": null,
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "https://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "com.google.oauth-client:google-oauth-client-java6:1.30.4"
+  },
+  {
     "project": "Java Native Access",
     "description": "Java Native Access",
     "version": "4.4.0",
@@ -583,6 +730,135 @@
     "year": null,
     "licenses": [],
     "dependency": "com.mojang:javabridge:1.0.22"
+  },
+  {
+    "project": "Jetty :: Continuation",
+    "description": "Asynchronous API",
+    "version": "8.2.0.v20160908",
+    "developers": [],
+    "url": "http://www.eclipse.org/jetty",
+    "year": null,
+    "licenses": [
+      {
+        "license": "Apache Software License - Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0"
+      },
+      {
+        "license": "Eclipse Public License - Version 1.0",
+        "license_url": "http://www.eclipse.org/org/documents/epl-v10.php"
+      }
+    ],
+    "dependency": "org.eclipse.jetty:jetty-continuation:8.2.0.v20160908"
+  },
+  {
+    "project": "Jetty :: Http Utility",
+    "description": null,
+    "version": "8.2.0.v20160908",
+    "developers": [],
+    "url": "http://www.eclipse.org/jetty",
+    "year": null,
+    "licenses": [
+      {
+        "license": "Apache Software License - Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0"
+      },
+      {
+        "license": "Eclipse Public License - Version 1.0",
+        "license_url": "http://www.eclipse.org/org/documents/epl-v10.php"
+      }
+    ],
+    "dependency": "org.eclipse.jetty:jetty-http:8.2.0.v20160908"
+  },
+  {
+    "project": "Jetty :: IO Utility",
+    "description": null,
+    "version": "8.2.0.v20160908",
+    "developers": [],
+    "url": "http://www.eclipse.org/jetty",
+    "year": null,
+    "licenses": [
+      {
+        "license": "Apache Software License - Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0"
+      },
+      {
+        "license": "Eclipse Public License - Version 1.0",
+        "license_url": "http://www.eclipse.org/org/documents/epl-v10.php"
+      }
+    ],
+    "dependency": "org.eclipse.jetty:jetty-io:8.2.0.v20160908"
+  },
+  {
+    "project": "Jetty :: Server Core",
+    "description": "The core jetty server artifact.",
+    "version": "8.2.0.v20160908",
+    "developers": [],
+    "url": "http://www.eclipse.org/jetty",
+    "year": null,
+    "licenses": [
+      {
+        "license": "Apache Software License - Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0"
+      },
+      {
+        "license": "Eclipse Public License - Version 1.0",
+        "license_url": "http://www.eclipse.org/org/documents/epl-v10.php"
+      }
+    ],
+    "dependency": "org.eclipse.jetty:jetty-server:8.2.0.v20160908"
+  },
+  {
+    "project": "Jetty :: Utilities",
+    "description": "Utility classes for Jetty",
+    "version": "8.2.0.v20160908",
+    "developers": [],
+    "url": "http://www.eclipse.org/jetty",
+    "year": null,
+    "licenses": [
+      {
+        "license": "Apache Software License - Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0"
+      },
+      {
+        "license": "Eclipse Public License - Version 1.0",
+        "license_url": "http://www.eclipse.org/org/documents/epl-v10.php"
+      }
+    ],
+    "dependency": "org.eclipse.jetty:jetty-util:8.2.0.v20160908"
+  },
+  {
+    "project": "Jetty extensions to the Google OAuth Client Library for Java.",
+    "description": null,
+    "version": "1.30.4",
+    "developers": [],
+    "url": null,
+    "year": null,
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "https://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "com.google.oauth-client:google-oauth-client-jetty:1.30.4"
+  },
+  {
+    "project": "Jetty Orbit :: Servlet API",
+    "description": "This artifact originates from the Orbit Project at Eclipse, \n    it is an osgi bundle and is signed as well.",
+    "version": "3.0.0.v201112011016",
+    "developers": [],
+    "url": null,
+    "year": null,
+    "licenses": [
+      {
+        "license": "Apache Software License - Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0"
+      },
+      {
+        "license": "Eclipse Public License - Version 1.0",
+        "license_url": "http://www.eclipse.org/org/documents/epl-v10.php"
+      }
+    ],
+    "dependency": "org.eclipse.jetty.orbit:javax.servlet:3.0.0.v201112011016"
   },
   {
     "project": "JInput",
@@ -874,6 +1150,40 @@
       }
     ],
     "dependency": "com.electronwill.night-config:toml:3.6.0"
+  },
+  {
+    "project": "OpenCensus",
+    "description": "null",
+    "version": "0.24.0",
+    "developers": [
+      "OpenCensus Contributors"
+    ],
+    "url": "https://github.com/census-instrumentation/opencensus-java",
+    "year": null,
+    "licenses": [
+      {
+        "license": "The Apache License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "io.opencensus:opencensus-api:0.24.0"
+  },
+  {
+    "project": "OpenCensus",
+    "description": "null",
+    "version": "0.24.0",
+    "developers": [
+      "OpenCensus Contributors"
+    ],
+    "url": "https://github.com/census-instrumentation/opencensus-java",
+    "year": null,
+    "licenses": [
+      {
+        "license": "The Apache License, Version 2.0",
+        "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "io.opencensus:opencensus-contrib-http-util:0.24.0"
   },
   {
     "project": "oshi-core",

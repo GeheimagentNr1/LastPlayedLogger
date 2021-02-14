@@ -1,7 +1,7 @@
 # LastPlayedLogger
 
 This is a Minecraft Forge mod.  
-A mod description can be found on [CurseForge](https://www.curseforge.com/minecraft/mc-mods/mumble-integration).  
+A mod description can be found on [CurseForge](https://www.curseforge.com/minecraft/mc-mods/last-played-logger).  
 This is a combined work only using and not modifying used libraries.
 
 ## Used libraries

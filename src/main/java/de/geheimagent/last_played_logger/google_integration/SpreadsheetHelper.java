@@ -36,15 +36,21 @@ public class SpreadsheetHelper {
 		
 		InputStream inputStream = new FileInputStream( "." + File.separator + LastPlayedLogger.MODID + File.separator +
 			"credentials.json" );
-		GoogleClientSecrets clientSecrets = GoogleClientSecrets.load( JacksonFactory.getDefaultInstance(),
-			new InputStreamReader( inputStream ) );
+		GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(
+			JacksonFactory.getDefaultInstance(),
+			new InputStreamReader( inputStream )
+		);
 		List<String> scopes = Collections.singletonList( SheetsScopes.SPREADSHEETS );
 		GoogleAuthorizationCodeFlow googleAuthorizationCodeFlow = new GoogleAuthorizationCodeFlow.Builder(
-			GoogleNetHttpTransport.newTrustedTransport(), JacksonFactory.getDefaultInstance(), clientSecrets, scopes )
-			.setDataStoreFactory( new FileDataStoreFactory( new File( LastPlayedLogger.MODID ) ) )
-			.setAccessType( "offline" ).build();
-		return new AuthorizationCodeInstalledApp( googleAuthorizationCodeFlow,
-			new LocalServerReceiver() ).authorize( "user" );
+			GoogleNetHttpTransport.newTrustedTransport(),
+			JacksonFactory.getDefaultInstance(),
+			clientSecrets,
+			scopes
+		).setDataStoreFactory( new FileDataStoreFactory( new File( LastPlayedLogger.MODID ) ) )
+			.setAccessType( "offline" )
+			.build();
+		return new AuthorizationCodeInstalledApp( googleAuthorizationCodeFlow, new LocalServerReceiver() )
+			.authorize( "user" );
 	}
 	
 	public static synchronized void initSheetsService() {
@@ -52,9 +58,11 @@ public class SpreadsheetHelper {
 		if( MainConfig.getActive() ) {
 			try {
 				Credential credential = authorize();
-				sheetsService = new Sheets.Builder( GoogleNetHttpTransport.newTrustedTransport(),
-					JacksonFactory.getDefaultInstance(), credential ).setApplicationName( MainConfig.getModName() )
-					.build();
+				sheetsService = new Sheets.Builder(
+					GoogleNetHttpTransport.newTrustedTransport(),
+					JacksonFactory.getDefaultInstance(),
+					credential
+				).setApplicationName( MainConfig.getModName() ).build();
 			} catch( IOException | GeneralSecurityException exception ) {
 				LOGGER.error( "Spreadsheet interaction failed", exception );
 			}
@@ -72,7 +80,9 @@ public class SpreadsheetHelper {
 			String range = MainConfig.getTabName();
 			int index = -1;
 			
-			ValueRange responce = sheetsService.spreadsheets().values().get( MainConfig.getSpreadsheetID(), range )
+			ValueRange responce = sheetsService.spreadsheets()
+				.values()
+				.get( MainConfig.getSpreadsheetID(), range )
 				.execute();
 			List<List<Object>> users = responce.getValues();
 			if( users != null ) {
@@ -88,15 +98,24 @@ public class SpreadsheetHelper {
 				ValueRange body = new ValueRange().setValues( Collections.singletonList( Collections.singletonList(
 					LocalDate.now().format( DateTimeFormatter.ofPattern( "dd.MM.yyyy" ) ) ) ) );
 				//noinspection StringConcatenationMissingWhitespace
-				sheetsService.spreadsheets().values().update( MainConfig.getSpreadsheetID(), range + "!B" + index,
-					body ).setValueInputOption( "USER_ENTERED" ).execute();
+				sheetsService.spreadsheets().values().update(
+					MainConfig.getSpreadsheetID(),
+					range + "!B" + index,
+					body
+				).setValueInputOption( "USER_ENTERED" ).execute();
 				
 			} else {
 				ValueRange appendBody = new ValueRange().setValues( Collections.singletonList( Arrays.asList(
-					playerName, LocalDate.now().format( DateTimeFormatter.ofPattern( "dd.MM.yyyy" ) ) ) ) );
-				sheetsService.spreadsheets().values().append( MainConfig.getSpreadsheetID(), range, appendBody )
-					.setValueInputOption( "USER_ENTERED" ).setInsertDataOption( "INSERT_ROWS" )
-					.setIncludeValuesInResponse( false ).execute();
+					playerName,
+					LocalDate.now().format( DateTimeFormatter.ofPattern( "dd.MM.yyyy" ) )
+				) ) );
+				sheetsService.spreadsheets()
+					.values()
+					.append( MainConfig.getSpreadsheetID(), range, appendBody )
+					.setValueInputOption( "USER_ENTERED" )
+					.setInsertDataOption( "INSERT_ROWS" )
+					.setIncludeValuesInResponse( false )
+					.execute();
 			}
 		} catch( IOException exception ) {
 			LOGGER.error( "Spreadsheet interaction failed", exception );

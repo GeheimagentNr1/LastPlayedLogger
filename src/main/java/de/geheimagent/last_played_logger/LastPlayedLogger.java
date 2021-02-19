@@ -18,7 +18,7 @@ public class LastPlayedLogger {
 	
 	public LastPlayedLogger() {
 		
-		ModLoadingContext.get().registerConfig( ModConfig.Type.COMMON, MainConfig.CONFIG, MODID + ".toml" );
+		ModLoadingContext.get().registerConfig( ModConfig.Type.SERVER, MainConfig.CONFIG );
 		ModLoadingContext.get().registerExtensionPoint(
 			ExtensionPoint.DISPLAYTEST,
 			() -> Pair.of(

@@ -12,7 +12,7 @@ import com.google.api.services.sheets.v4.Sheets;
 import com.google.api.services.sheets.v4.SheetsScopes;
 import com.google.api.services.sheets.v4.model.ValueRange;
 import de.geheimagent.last_played_logger.LastPlayedLogger;
-import de.geheimagent.last_played_logger.configs.MainConfig;
+import de.geheimagent.last_played_logger.configs.ServerConfig;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -28,14 +28,15 @@ import java.util.List;
 public class SpreadsheetHelper {
 	
 	
-	private static final Logger LOGGER = LogManager.getLogger();
+	private static final Logger LOGGER = LogManager.getLogger( SpreadsheetHelper.class );
 	
 	private static Sheets sheetsService = null;
 	
 	private static Credential authorize() throws IOException, GeneralSecurityException {
 		
-		InputStream inputStream = new FileInputStream( "." + File.separator + LastPlayedLogger.MODID + File.separator +
-			"credentials.json" );
+		InputStream inputStream = new FileInputStream(
+			"." + File.separator + LastPlayedLogger.MODID + File.separator + "credentials.json"
+		);
 		GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(
 			JacksonFactory.getDefaultInstance(),
 			new InputStreamReader( inputStream )
@@ -55,14 +56,15 @@ public class SpreadsheetHelper {
 	
 	public static synchronized void initSheetsService() {
 		
-		if( MainConfig.getActive() ) {
+		if( ServerConfig.getActive() ) {
 			try {
 				Credential credential = authorize();
 				sheetsService = new Sheets.Builder(
 					GoogleNetHttpTransport.newTrustedTransport(),
 					JacksonFactory.getDefaultInstance(),
 					credential
-				).setApplicationName( MainConfig.getModName() ).build();
+				).setApplicationName( ServerConfig.getModName() )
+					.build();
 			} catch( IOException | GeneralSecurityException exception ) {
 				LOGGER.error( "Spreadsheet interaction failed", exception );
 			}
@@ -77,12 +79,12 @@ public class SpreadsheetHelper {
 			return;
 		}
 		try {
-			String range = MainConfig.getTabName();
+			String range = ServerConfig.getTabName();
 			int index = -1;
 			
 			ValueRange responce = sheetsService.spreadsheets()
 				.values()
-				.get( MainConfig.getSpreadsheetID(), range )
+				.get( ServerConfig.getSpreadsheetID(), range )
 				.execute();
 			List<List<Object>> users = responce.getValues();
 			if( users != null ) {
@@ -96,13 +98,16 @@ public class SpreadsheetHelper {
 			}
 			if( index > 0 ) {
 				ValueRange body = new ValueRange().setValues( Collections.singletonList( Collections.singletonList(
-					LocalDate.now().format( DateTimeFormatter.ofPattern( "dd.MM.yyyy" ) ) ) ) );
-				//noinspection StringConcatenationMissingWhitespace
-				sheetsService.spreadsheets().values().update(
-					MainConfig.getSpreadsheetID(),
-					range + "!B" + index,
-					body
-				).setValueInputOption( "USER_ENTERED" ).execute();
+					LocalDate.now().format( DateTimeFormatter.ofPattern( "dd.MM.yyyy" ) )
+				) ) );
+				sheetsService.spreadsheets()
+					.values()
+					.update(
+						ServerConfig.getSpreadsheetID(),
+						String.format( "%s!B%d", range, index ),
+						body
+					).setValueInputOption( "USER_ENTERED" )
+					.execute();
 				
 			} else {
 				ValueRange appendBody = new ValueRange().setValues( Collections.singletonList( Arrays.asList(
@@ -111,7 +116,7 @@ public class SpreadsheetHelper {
 				) ) );
 				sheetsService.spreadsheets()
 					.values()
-					.append( MainConfig.getSpreadsheetID(), range, appendBody )
+					.append( ServerConfig.getSpreadsheetID(), range, appendBody )
 					.setValueInputOption( "USER_ENTERED" )
 					.setInsertDataOption( "INSERT_ROWS" )
 					.setIncludeValuesInResponse( false )

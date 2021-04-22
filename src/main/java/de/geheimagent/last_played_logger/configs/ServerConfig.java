@@ -3,17 +3,18 @@ package de.geheimagent.last_played_logger.configs;
 import de.geheimagent.last_played_logger.google_integration.SpreadsheetHelper;
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.common.ForgeConfigSpec;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.server.ServerLifecycleHooks;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 
-public class MainConfig {
+public class ServerConfig {
 	
 	
-	private static final Logger LOGGER = LogManager.getLogger();
+	private static final Logger LOGGER = LogManager.getLogger( ServerConfig.class );
 	
-	private static final String mod_name = "Last Played Logger";
+	private static final String MOD_NAME = ModLoadingContext.get().getActiveContainer().getModInfo().getDisplayName();
 	
 	private static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
 	
@@ -27,9 +28,12 @@ public class MainConfig {
 	
 	static {
 		
-		ACTIVE = BUILDER.comment( "Shall the mod be active or not?" ).define( "active", false );
-		SPREADSHEETID = BUILDER.comment( "ID of the Spreadsheet." ).define( "spreadsheetID", "" );
-		TAB_NAME = BUILDER.comment( "Name of the Spreadsheet tab." ).define( "tab_name", "" );
+		ACTIVE = BUILDER.comment( "Shall the mod be active or not?" )
+			.define( "active", false );
+		SPREADSHEETID = BUILDER.comment( "ID of the Spreadsheet." )
+			.define( "spreadsheetID", "" );
+		TAB_NAME = BUILDER.comment( "Name of the Spreadsheet tab." )
+			.define( "tab_name", "" );
 		
 		CONFIG = BUILDER.build();
 	}
@@ -46,16 +50,16 @@ public class MainConfig {
 	
 	private static void printConfig() {
 		
-		LOGGER.info( "Loading \"{}\" Config", mod_name );
+		LOGGER.info( "Loading \"{}\" Server Config", MOD_NAME );
 		LOGGER.info( "{} = {}", ACTIVE.getPath(), ACTIVE.get() );
 		LOGGER.info( "{} = {}", SPREADSHEETID.getPath(), SPREADSHEETID.get() );
 		LOGGER.info( "{} = {}", TAB_NAME.getPath(), TAB_NAME.get() );
-		LOGGER.info( "\"{}\" Config loaded", mod_name );
+		LOGGER.info( "\"{}\" Server Config loaded", MOD_NAME );
 	}
 	
 	public static String getModName() {
 		
-		return mod_name;
+		return MOD_NAME;
 	}
 	
 	public static boolean getActive() {

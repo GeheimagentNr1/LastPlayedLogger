@@ -176,7 +176,7 @@
   {
     "project": "Apache HttpClient",
     "description": "Apache HttpComponents Client",
-    "version": "4.5.10",
+    "version": "4.5.11",
     "developers": [],
     "url": "http://hc.apache.org/httpcomponents-client",
     "year": null,
@@ -186,12 +186,12 @@
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "org.apache.httpcomponents:httpclient:4.5.10"
+    "dependency": "org.apache.httpcomponents:httpclient:4.5.11"
   },
   {
     "project": "Apache HttpCore",
     "description": "Apache HttpComponents Core (blocking I/O)",
-    "version": "4.4.12",
+    "version": "4.4.13",
     "developers": [],
     "url": "http://hc.apache.org/httpcomponents-core-ga",
     "year": "2005",
@@ -201,7 +201,7 @@
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "org.apache.httpcomponents:httpcore:4.4.12"
+    "dependency": "org.apache.httpcomponents:httpcore:4.4.13"
   },
   {
     "project": "Apache Log4j API",
@@ -497,7 +497,7 @@
   {
     "project": "Google HTTP Client Library for Java",
     "description": "Google HTTP Client Library for Java. Functionality that works on all supported Java platforms,\n    including Java 7 (or higher) desktop (SE) and web (EE), Android, and Google App Engine.",
-    "version": "1.32.1",
+    "version": "1.34.2",
     "developers": [],
     "url": null,
     "year": null,
@@ -507,12 +507,12 @@
         "license_url": "http://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "com.google.http-client:google-http-client:1.32.1"
+    "dependency": "com.google.http-client:google-http-client:1.34.2"
   },
   {
     "project": "Google OAuth Client Library for Java",
     "description": "Google OAuth Client Library for Java. Functionality that works on all supported Java platforms,\n    including Java 7 (or higher) desktop (SE) and web (EE), Android, and Google App Engine.",
-    "version": "1.30.4",
+    "version": "1.30.6",
     "developers": [],
     "url": null,
     "year": null,
@@ -522,7 +522,7 @@
         "license_url": "https://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "com.google.oauth-client:google-oauth-client:1.30.4"
+    "dependency": "com.google.oauth-client:google-oauth-client:1.30.6"
   },
   {
     "project": "Google Sheets API v4-rev612-1.25.0",
@@ -542,14 +542,14 @@
   {
     "project": "Grotesque Java 9 Hacks",
     "description": "Grotesque Java 9 Hacks to allow modlauncher to function",
-    "version": "1.3.0",
+    "version": "1.3.3",
     "developers": [
       "cpw"
     ],
     "url": "https://github.com/cpw/grossjava9classpathhacks",
     "year": null,
     "licenses": [],
-    "dependency": "cpw.mods:grossjava9hacks:1.3.0"
+    "dependency": "cpw.mods:grossjava9hacks:1.3.3"
   },
   {
     "project": "Gson",
@@ -670,7 +670,7 @@
   {
     "project": "Java 6 (and higher) extensions to the Google OAuth Client Library for Java.",
     "description": null,
-    "version": "1.30.4",
+    "version": "1.30.6",
     "developers": [],
     "url": null,
     "year": null,
@@ -680,7 +680,7 @@
         "license_url": "https://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "com.google.oauth-client:google-oauth-client-java6:1.30.4"
+    "dependency": "com.google.oauth-client:google-oauth-client-java6:1.30.6"
   },
   {
     "project": "Java Native Access",
@@ -730,135 +730,6 @@
     "year": null,
     "licenses": [],
     "dependency": "com.mojang:javabridge:1.0.22"
-  },
-  {
-    "project": "Jetty :: Continuation",
-    "description": "Asynchronous API",
-    "version": "8.2.0.v20160908",
-    "developers": [],
-    "url": "http://www.eclipse.org/jetty",
-    "year": null,
-    "licenses": [
-      {
-        "license": "Apache Software License - Version 2.0",
-        "license_url": "http://www.apache.org/licenses/LICENSE-2.0"
-      },
-      {
-        "license": "Eclipse Public License - Version 1.0",
-        "license_url": "http://www.eclipse.org/org/documents/epl-v10.php"
-      }
-    ],
-    "dependency": "org.eclipse.jetty:jetty-continuation:8.2.0.v20160908"
-  },
-  {
-    "project": "Jetty :: Http Utility",
-    "description": null,
-    "version": "8.2.0.v20160908",
-    "developers": [],
-    "url": "http://www.eclipse.org/jetty",
-    "year": null,
-    "licenses": [
-      {
-        "license": "Apache Software License - Version 2.0",
-        "license_url": "http://www.apache.org/licenses/LICENSE-2.0"
-      },
-      {
-        "license": "Eclipse Public License - Version 1.0",
-        "license_url": "http://www.eclipse.org/org/documents/epl-v10.php"
-      }
-    ],
-    "dependency": "org.eclipse.jetty:jetty-http:8.2.0.v20160908"
-  },
-  {
-    "project": "Jetty :: IO Utility",
-    "description": null,
-    "version": "8.2.0.v20160908",
-    "developers": [],
-    "url": "http://www.eclipse.org/jetty",
-    "year": null,
-    "licenses": [
-      {
-        "license": "Apache Software License - Version 2.0",
-        "license_url": "http://www.apache.org/licenses/LICENSE-2.0"
-      },
-      {
-        "license": "Eclipse Public License - Version 1.0",
-        "license_url": "http://www.eclipse.org/org/documents/epl-v10.php"
-      }
-    ],
-    "dependency": "org.eclipse.jetty:jetty-io:8.2.0.v20160908"
-  },
-  {
-    "project": "Jetty :: Server Core",
-    "description": "The core jetty server artifact.",
-    "version": "8.2.0.v20160908",
-    "developers": [],
-    "url": "http://www.eclipse.org/jetty",
-    "year": null,
-    "licenses": [
-      {
-        "license": "Apache Software License - Version 2.0",
-        "license_url": "http://www.apache.org/licenses/LICENSE-2.0"
-      },
-      {
-        "license": "Eclipse Public License - Version 1.0",
-        "license_url": "http://www.eclipse.org/org/documents/epl-v10.php"
-      }
-    ],
-    "dependency": "org.eclipse.jetty:jetty-server:8.2.0.v20160908"
-  },
-  {
-    "project": "Jetty :: Utilities",
-    "description": "Utility classes for Jetty",
-    "version": "8.2.0.v20160908",
-    "developers": [],
-    "url": "http://www.eclipse.org/jetty",
-    "year": null,
-    "licenses": [
-      {
-        "license": "Apache Software License - Version 2.0",
-        "license_url": "http://www.apache.org/licenses/LICENSE-2.0"
-      },
-      {
-        "license": "Eclipse Public License - Version 1.0",
-        "license_url": "http://www.eclipse.org/org/documents/epl-v10.php"
-      }
-    ],
-    "dependency": "org.eclipse.jetty:jetty-util:8.2.0.v20160908"
-  },
-  {
-    "project": "Jetty extensions to the Google OAuth Client Library for Java.",
-    "description": null,
-    "version": "1.30.4",
-    "developers": [],
-    "url": null,
-    "year": null,
-    "licenses": [
-      {
-        "license": "The Apache Software License, Version 2.0",
-        "license_url": "https://www.apache.org/licenses/LICENSE-2.0.txt"
-      }
-    ],
-    "dependency": "com.google.oauth-client:google-oauth-client-jetty:1.30.4"
-  },
-  {
-    "project": "Jetty Orbit :: Servlet API",
-    "description": "This artifact originates from the Orbit Project at Eclipse, \n    it is an osgi bundle and is signed as well.",
-    "version": "3.0.0.v201112011016",
-    "developers": [],
-    "url": null,
-    "year": null,
-    "licenses": [
-      {
-        "license": "Apache Software License - Version 2.0",
-        "license_url": "http://www.apache.org/licenses/LICENSE-2.0"
-      },
-      {
-        "license": "Eclipse Public License - Version 1.0",
-        "license_url": "http://www.eclipse.org/org/documents/epl-v10.php"
-      }
-    ],
-    "dependency": "org.eclipse.jetty.orbit:javax.servlet:3.0.0.v201112011016"
   },
   {
     "project": "JInput",
@@ -1182,6 +1053,21 @@
       }
     ],
     "dependency": "com.electronwill.night-config:toml:3.6.2"
+  },
+  {
+    "project": "OAuth 2.0 verification code receiver for Google OAuth Client Library for Java.",
+    "description": "Runs an HTTP server on a free port, waiting for a \n               redirect with the verification code.",
+    "version": "1.30.6",
+    "developers": [],
+    "url": null,
+    "year": null,
+    "licenses": [
+      {
+        "license": "The Apache Software License, Version 2.0",
+        "license_url": "https://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "dependency": "com.google.oauth-client:google-oauth-client-jetty:1.30.6"
   },
   {
     "project": "OpenCensus",

@@ -152,6 +152,7 @@ dependencies {
 }
 
 shadowJar {
+    classifier ""
     configurations = [project.configurations.shadow]
 
     relocate 'com.fasterxml.jackson.core', 'lib.com.fasterxml.jackson.core'
@@ -203,6 +204,7 @@ artifacts {
 
 // Example for how to get properties into the manifest for reading by the runtime..
 jar {
+    classifier ""
     manifest {
         attributes([
             "Specification-Title": "${mod_id}",

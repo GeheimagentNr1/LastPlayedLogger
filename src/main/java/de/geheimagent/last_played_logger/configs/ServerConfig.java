@@ -1,10 +1,8 @@
 package de.geheimagent.last_played_logger.configs;
 
 import de.geheimagent.last_played_logger.google_integration.SpreadsheetHelper;
-import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.fml.ModLoadingContext;
-import net.minecraftforge.fml.server.ServerLifecycleHooks;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -40,11 +38,7 @@ public class ServerConfig {
 	
 	public static void handleConfigChange() {
 		
-		MinecraftServer minecraftServer = ServerLifecycleHooks.getCurrentServer();
-		
-		if( minecraftServer != null && minecraftServer.isDedicatedServer() ) {
-			SpreadsheetHelper.initSheetsService();
-		}
+		SpreadsheetHelper.initSheetsService();
 		printConfig();
 	}
 	

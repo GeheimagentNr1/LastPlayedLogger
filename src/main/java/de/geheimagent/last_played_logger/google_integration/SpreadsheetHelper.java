@@ -6,7 +6,7 @@ import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
 import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
-import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.sheets.v4.Sheets;
 import com.google.api.services.sheets.v4.SheetsScopes;
@@ -38,13 +38,13 @@ public class SpreadsheetHelper {
 			"." + File.separator + LastPlayedLogger.MODID + File.separator + "credentials.json"
 		);
 		GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(
-			JacksonFactory.getDefaultInstance(),
+			GsonFactory.getDefaultInstance(),
 			new InputStreamReader( inputStream )
 		);
 		List<String> scopes = Collections.singletonList( SheetsScopes.SPREADSHEETS );
 		GoogleAuthorizationCodeFlow googleAuthorizationCodeFlow = new GoogleAuthorizationCodeFlow.Builder(
 			GoogleNetHttpTransport.newTrustedTransport(),
-			JacksonFactory.getDefaultInstance(),
+			GsonFactory.getDefaultInstance(),
 			clientSecrets,
 			scopes
 		).setDataStoreFactory( new FileDataStoreFactory( new File( LastPlayedLogger.MODID ) ) )
@@ -61,7 +61,7 @@ public class SpreadsheetHelper {
 				Credential credential = authorize();
 				sheetsService = new Sheets.Builder(
 					GoogleNetHttpTransport.newTrustedTransport(),
-					JacksonFactory.getDefaultInstance(),
+					GsonFactory.getDefaultInstance(),
 					credential
 				).setApplicationName( ServerConfig.getModName() )
 					.build();

@@ -1,13 +1,13 @@
 buildscript {
     repositories {
-        maven { url = 'https://files.minecraftforge.net/maven' }
-        jcenter()
+        maven { url = 'https://maven.minecraftforge.net' }
         mavenCentral()
+        jcenter()
         google()
         maven { url = "https://plugins.gradle.org/m2/" }
     }
     dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '4.1.+', changing: true
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
         classpath "com.github.jengelman.gradle.plugins:shadow:2.0.4"
         classpath 'com.jaredsburrows:gradle-license-plugin:0.8.90'
     }
@@ -60,7 +60,7 @@ minecraft {
             workingDirectory project.file('run/client')
 
             // Recommended logging data for a userdev environment
-            // The markers can be changed as needed. 
+            // The markers can be changed as needed.
             // "SCAN": For mods scan.
             // "REGISTRIES": For firing of registry events.
             // "REGISTRYDUMP": For getting the contents of all registries.
@@ -82,7 +82,7 @@ minecraft {
             workingDirectory project.file('run/server')
 
             // Recommended logging data for a userdev environment
-            // The markers can be changed as needed. 
+            // The markers can be changed as needed.
             // "SCAN": For mods scan.
             // "REGISTRIES": For firing of registry events.
             // "REGISTRYDUMP": For getting the contents of all registries.
@@ -104,7 +104,7 @@ minecraft {
             workingDirectory project.file('run/data')
 
             // Recommended logging data for a userdev environment
-            // The markers can be changed as needed. 
+            // The markers can be changed as needed.
             // "SCAN": For mods scan.
             // "REGISTRIES": For firing of registry events.
             // "REGISTRYDUMP": For getting the contents of all registries.
@@ -147,9 +147,9 @@ dependencies {
         exclude group: "com.google.guava", module: "guava"
     }
 
-    compile "com.google.api-client:google-api-client:${google_api_client_version}", excludeGuava
-    compile "com.google.oauth-client:google-oauth-client-jetty:${google_oauth_client_jetty_version}", excludeGuava
-    compile "com.google.apis:google-api-services-sheets:${google_api_services_sheets_version}", excludeGuava
+    implementation "com.google.api-client:google-api-client:${google_api_client_version}", excludeGuava
+    implementation "com.google.oauth-client:google-oauth-client-jetty:${google_oauth_client_jetty_version}", excludeGuava
+    implementation "com.google.apis:google-api-services-sheets:${google_api_services_sheets_version}", excludeGuava
 
     shadow "com.google.api-client:google-api-client:${google_api_client_version}", excludeGuava
     shadow "com.google.oauth-client:google-oauth-client-jetty:${google_oauth_client_jetty_version}", excludeGuava

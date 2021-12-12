@@ -664,7 +664,7 @@
   {
     "project": "Google OAuth Client Library for Java",
     "description": "Google OAuth Client Library for Java. Functionality that works on all supported Java platforms,\n    including Java 7 (or higher) desktop (SE) and web (EE), Android, and Google App Engine.",
-    "version": "1.31.5",
+    "version": "1.32.1",
     "developers": [],
     "url": null,
     "year": null,
@@ -674,7 +674,7 @@
         "license_url": "https://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "com.google.oauth-client:google-oauth-client:1.31.5"
+    "dependency": "com.google.oauth-client:google-oauth-client:1.32.1"
   },
   {
     "project": "Google Sheets API v4-rev612-1.25.0",
@@ -825,7 +825,7 @@
   {
     "project": "Java 6 (and higher) extensions to the Google OAuth Client Library for Java.",
     "description": null,
-    "version": "1.31.5",
+    "version": "1.32.1",
     "developers": [],
     "url": null,
     "year": null,
@@ -835,7 +835,7 @@
         "license_url": "https://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "com.google.oauth-client:google-oauth-client-java6:1.31.5"
+    "dependency": "com.google.oauth-client:google-oauth-client-java6:1.32.1"
   },
   {
     "project": "Java Native Access",
@@ -1257,7 +1257,7 @@
   {
     "project": "OAuth 2.0 verification code receiver for Google OAuth Client Library for Java.",
     "description": "Runs an HTTP server on a free port, waiting for a \n               redirect with the verification code.",
-    "version": "1.31.5",
+    "version": "1.32.1",
     "developers": [],
     "url": null,
     "year": null,
@@ -1267,7 +1267,7 @@
         "license_url": "https://www.apache.org/licenses/LICENSE-2.0.txt"
       }
     ],
-    "dependency": "com.google.oauth-client:google-oauth-client-jetty:1.31.5"
+    "dependency": "com.google.oauth-client:google-oauth-client-jetty:1.32.1"
   },
   {
     "project": "OpenCensus",

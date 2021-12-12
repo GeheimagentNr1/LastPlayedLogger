@@ -3,7 +3,6 @@ buildscript {
         // These repositories are only for Gradle plugins, put any other repositories in the repository block further below
         maven { url = 'https://maven.minecraftforge.net' }
         mavenCentral()
-        jcenter()
         google()
         maven { url = "https://plugins.gradle.org/m2/" }
     }
@@ -139,7 +138,6 @@ repositories {
     // flatDir {
     //     dir 'libs'
     // }
-    jcenter()
 }
 
 dependencies {

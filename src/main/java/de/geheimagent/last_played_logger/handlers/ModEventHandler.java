@@ -1,30 +1,27 @@
 package de.geheimagent.last_played_logger.handlers;
 
-import de.geheimagent.last_played_logger.LastPlayedLogger;
-import de.geheimagent.last_played_logger.configs.ServerConfig;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import de.geheimagentnr1.minecraft_forge_api.AbstractMod;
+import de.geheimagentnr1.minecraft_forge_api.events.AbstractModEventHandler;
 import net.minecraftforge.fml.event.config.ModConfigEvent;
 
 
-@Mod.EventBusSubscriber(
-	modid = LastPlayedLogger.MODID,
-	bus = Mod.EventBusSubscriber.Bus.MOD,
-	value = Dist.DEDICATED_SERVER
-)
-public class ModEventHandler {
+public class ModEventHandler extends AbstractModEventHandler {
 	
 	
-	@SubscribeEvent
-	public static void handleModConfigLoadingEvent( ModConfigEvent.Loading event ) {
+	public ModEventHandler( AbstractMod mod ) {
 		
-		ServerConfig.handleConfigChange();
+		super( mod );
 	}
 	
-	@SubscribeEvent
-	public static void handleModConfigReloadingEvent( ModConfigEvent.Reloading event ) {
+	@Override
+	public void handleModConfigLoadingEvent( ModConfigEvent.Loading event ) {
 		
-		ServerConfig.handleConfigChange();
+		super.handleModConfigLoadingEvent( event );
+	}
+	
+	@Override
+	public void handleModConfigReloadingEvent( ModConfigEvent.Reloading event ) {
+		
+		super.handleModConfigReloadingEvent( event );
 	}
 }

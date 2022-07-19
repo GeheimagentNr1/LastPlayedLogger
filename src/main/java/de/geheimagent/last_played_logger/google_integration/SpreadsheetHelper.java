@@ -13,8 +13,7 @@ import com.google.api.services.sheets.v4.SheetsScopes;
 import com.google.api.services.sheets.v4.model.ValueRange;
 import de.geheimagent.last_played_logger.LastPlayedLogger;
 import de.geheimagent.last_played_logger.configs.ServerConfig;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.log4j.Log4j2;
 
 import java.io.*;
 import java.security.GeneralSecurityException;
@@ -25,14 +24,20 @@ import java.util.Collections;
 import java.util.List;
 
 
+@Log4j2
 public class SpreadsheetHelper {
 	
 	
-	private static final Logger LOGGER = LogManager.getLogger( SpreadsheetHelper.class );
+	private final ServerConfig serverConfig;
 	
-	private static Sheets sheetsService = null;
+	private Sheets sheetsService = null;
 	
-	private static Credential authorize() throws IOException, GeneralSecurityException {
+	public SpreadsheetHelper( ServerConfig _serverConfig ) {
+		
+		serverConfig = _serverConfig;
+	}
+	
+	private Credential authorize() throws IOException, GeneralSecurityException {
 		
 		InputStream inputStream = new FileInputStream(
 			"." + File.separator + LastPlayedLogger.MODID + File.separator + "credentials.json"
@@ -54,37 +59,37 @@ public class SpreadsheetHelper {
 			.authorize( "user" );
 	}
 	
-	public static synchronized void initSheetsService() {
+	public synchronized void initSheetsService() {
 		
-		if( ServerConfig.getActive() ) {
+		if( serverConfig.getActive() ) {
 			try {
 				Credential credential = authorize();
 				sheetsService = new Sheets.Builder(
 					GoogleNetHttpTransport.newTrustedTransport(),
 					GsonFactory.getDefaultInstance(),
 					credential
-				).setApplicationName( ServerConfig.getModName() )
+				).setApplicationName( serverConfig.getModName() )
 					.build();
 			} catch( IOException | GeneralSecurityException exception ) {
-				LOGGER.error( "Spreadsheet interaction failed", exception );
+				log.error( "Spreadsheet interaction failed", exception );
 			}
 		} else {
 			sheetsService = null;
 		}
 	}
 	
-	public static synchronized void insertOrUpdateUser( String playerName ) {
+	public synchronized void insertOrUpdateUser( String playerName ) {
 		
 		if( sheetsService == null ) {
 			return;
 		}
 		try {
-			String range = ServerConfig.getTabName();
+			String range = serverConfig.getTabName();
 			int index = -1;
 			
 			ValueRange responce = sheetsService.spreadsheets()
 				.values()
-				.get( ServerConfig.getSpreadsheetID(), range )
+				.get( serverConfig.getSpreadsheetID(), range )
 				.execute();
 			List<List<Object>> users = responce.getValues();
 			if( users != null ) {
@@ -103,7 +108,7 @@ public class SpreadsheetHelper {
 				sheetsService.spreadsheets()
 					.values()
 					.update(
-						ServerConfig.getSpreadsheetID(),
+						serverConfig.getSpreadsheetID(),
 						String.format( "%s!B%d", range, index ),
 						body
 					).setValueInputOption( "USER_ENTERED" )
@@ -116,14 +121,14 @@ public class SpreadsheetHelper {
 				) ) );
 				sheetsService.spreadsheets()
 					.values()
-					.append( ServerConfig.getSpreadsheetID(), range, appendBody )
+					.append( serverConfig.getSpreadsheetID(), range, appendBody )
 					.setValueInputOption( "USER_ENTERED" )
 					.setInsertDataOption( "INSERT_ROWS" )
 					.setIncludeValuesInResponse( false )
 					.execute();
 			}
 		} catch( IOException exception ) {
-			LOGGER.error( "Spreadsheet interaction failed", exception );
+			log.error( "Spreadsheet interaction failed", exception );
 		}
 	}
 }

@@ -1,35 +1,40 @@
 package de.geheimagent.last_played_logger.handlers;
 
-import de.geheimagent.last_played_logger.LastPlayedLogger;
 import de.geheimagent.last_played_logger.configs.ServerConfig;
 import de.geheimagent.last_played_logger.google_integration.SpreadsheetHelper;
-import net.minecraftforge.api.distmarker.Dist;
+import de.geheimagentnr1.minecraft_forge_api.AbstractMod;
+import de.geheimagentnr1.minecraft_forge_api.events.AbstractForgeEventHandler;
 import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.event.server.ServerStartedEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.event.server.ServerStartingEvent;
+import net.minecraftforge.fml.config.ModConfig;
 
 
-@Mod.EventBusSubscriber(
-	modid = LastPlayedLogger.MODID,
-	bus = Mod.EventBusSubscriber.Bus.FORGE,
-	value = Dist.DEDICATED_SERVER
-)
-public class ForgeEventHandler {
+public class ForgeEventHandler extends AbstractForgeEventHandler {
 	
 	
-	@SubscribeEvent
-	public static void handleServerStartedEvent( ServerStartedEvent event ) {
+	private final ServerConfig serverConfig;
+	
+	private final SpreadsheetHelper spreadsheetHelper;
+	
+	public ForgeEventHandler( AbstractMod mod ) {
 		
-		SpreadsheetHelper.initSheetsService();
+		super( mod );
+		serverConfig = mod.getConfig( ModConfig.Type.SERVER, ServerConfig.class ).orElseThrow();
+		spreadsheetHelper = new SpreadsheetHelper( serverConfig );
 	}
 	
-	@SubscribeEvent
-	public static void handlePlayerLoggedInEvent( PlayerEvent.PlayerLoggedInEvent event ) {
+	@Override
+	public void handleServerStartedEvent( ServerStartingEvent event ) {
 		
-		if( ServerConfig.getActive() ) {
+		spreadsheetHelper.initSheetsService();
+	}
+	
+	@Override
+	public void handlePlayerLoggedInEvent( PlayerEvent.PlayerLoggedInEvent event ) {
+		
+		if( serverConfig.getActive() ) {
 			new Thread(
-				() -> SpreadsheetHelper.insertOrUpdateUser( event.getPlayer().getGameProfile().getName() )
+				() -> spreadsheetHelper.insertOrUpdateUser( event.getPlayer().getGameProfile().getName() )
 			).start();
 		}
 	}

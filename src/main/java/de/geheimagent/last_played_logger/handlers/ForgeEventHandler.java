@@ -29,7 +29,7 @@ public class ForgeEventHandler {
 		
 		if( ServerConfig.getActive() ) {
 			new Thread(
-				() -> SpreadsheetHelper.insertOrUpdateUser( event.getPlayer().getGameProfile().getName() )
+				() -> SpreadsheetHelper.insertOrUpdateUser( event.getEntity().getGameProfile().getName() )
 			).start();
 		}
 	}

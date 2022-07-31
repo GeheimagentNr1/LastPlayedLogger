@@ -1,7 +1,5 @@
 package de.geheimagent.last_played_logger.configs;
 
-import de.geheimagent.last_played_logger.LastPlayedLogger;
-import de.geheimagent.last_played_logger.google_integration.SpreadsheetHelper;
 import de.geheimagentnr1.minecraft_forge_api.AbstractMod;
 import de.geheimagentnr1.minecraft_forge_api.config.AbstractConfig;
 import net.minecraftforge.fml.config.ModConfig;
@@ -14,20 +12,12 @@ public class ServerConfig extends AbstractConfig {
 	private static final String ACTIVE_KEY = "active";
 	
 	private static final String SPREADSHEET_ID_KEY = "spreadsheetID";
-
+	
 	private static final String TAB_NAME_KEY = "tab_name";
 	
 	public ServerConfig( @NotNull ModConfig.Type _type, @NotNull AbstractMod _abstractMod ) {
 		
 		super( _type, _abstractMod );
-	}
-	
-	public void handleConfigChange() {
-		
-		if( abstractMod instanceof LastPlayedLogger ) {
-			
-			SpreadsheetHelper.initSheetsService();
-		}
 	}
 	
 	@Override

@@ -1,6 +1,6 @@
-package de.geheimagent.last_played_logger;
+package de.geheimagentnr1.last_played_logger;
 
-import de.geheimagent.last_played_logger.configs.ServerConfig;
+import de.geheimagentnr1.last_played_logger.configs.ServerConfig;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;

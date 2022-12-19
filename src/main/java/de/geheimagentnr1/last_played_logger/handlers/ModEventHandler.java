@@ -1,7 +1,7 @@
-package de.geheimagent.last_played_logger.handlers;
+package de.geheimagentnr1.last_played_logger.handlers;
 
-import de.geheimagent.last_played_logger.LastPlayedLogger;
-import de.geheimagent.last_played_logger.configs.ServerConfig;
+import de.geheimagentnr1.last_played_logger.LastPlayedLogger;
+import de.geheimagentnr1.last_played_logger.configs.ServerConfig;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;

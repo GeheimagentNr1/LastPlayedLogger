@@ -1,4 +1,4 @@
-package de.geheimagent.last_played_logger.google_integration;
+package de.geheimagentnr1.last_played_logger.google_integration;
 
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
@@ -11,8 +11,8 @@ import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.sheets.v4.Sheets;
 import com.google.api.services.sheets.v4.SheetsScopes;
 import com.google.api.services.sheets.v4.model.ValueRange;
-import de.geheimagent.last_played_logger.LastPlayedLogger;
-import de.geheimagent.last_played_logger.configs.ServerConfig;
+import de.geheimagentnr1.last_played_logger.LastPlayedLogger;
+import de.geheimagentnr1.last_played_logger.configs.ServerConfig;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

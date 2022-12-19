@@ -1,6 +1,6 @@
-package de.geheimagent.last_played_logger.configs;
+package de.geheimagentnr1.last_played_logger.configs;
 
-import de.geheimagent.last_played_logger.google_integration.SpreadsheetHelper;
+import de.geheimagentnr1.last_played_logger.google_integration.SpreadsheetHelper;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.fml.ModLoadingContext;
 import org.apache.logging.log4j.LogManager;

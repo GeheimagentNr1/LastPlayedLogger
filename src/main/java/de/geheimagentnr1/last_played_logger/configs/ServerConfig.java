@@ -5,69 +5,46 @@ import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.fml.ModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import de.geheimagentnr1.minecraft_forge_api.AbstractMod;
+import de.geheimagentnr1.minecraft_forge_api.config.AbstractConfig;
+import net.minecraftforge.fml.config.ModConfig;
+import org.jetbrains.annotations.NotNull;
 
 
-public class ServerConfig {
+public class ServerConfig extends AbstractConfig {
 	
 	
-	private static final Logger LOGGER = LogManager.getLogger( ServerConfig.class );
+	private static final String ACTIVE_KEY = "active";
 	
-	private static final String MOD_NAME = ModLoadingContext.get().getActiveContainer().getModInfo().getDisplayName();
+	private static final String SPREADSHEET_ID_KEY = "spreadsheetID";
 	
-	private static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
+	private static final String TAB_NAME_KEY = "tab_name";
 	
-	public static final ForgeConfigSpec CONFIG;
-	
-	private static final ForgeConfigSpec.BooleanValue ACTIVE;
-	
-	private static final ForgeConfigSpec.ConfigValue<String> SPREADSHEETID;
-	
-	private static final ForgeConfigSpec.ConfigValue<String> TAB_NAME;
-	
-	static {
+	public ServerConfig( @NotNull ModConfig.Type _type, @NotNull AbstractMod _abstractMod ) {
 		
-		ACTIVE = BUILDER.comment( "Shall the mod be active or not?" )
-			.define( "active", false );
-		SPREADSHEETID = BUILDER.comment( "ID of the Spreadsheet." )
-			.define( "spreadsheetID", "" );
-		TAB_NAME = BUILDER.comment( "Name of the Spreadsheet tab." )
-			.define( "tab_name", "" );
-		
-		CONFIG = BUILDER.build();
+		super( _type, _abstractMod );
 	}
 	
-	public static void handleConfigChange() {
+	@Override
+	protected void registerConfigValues() {
 		
-		SpreadsheetHelper.initSheetsService();
-		printConfig();
+		registerConfigValue( "Shall the mod be active or not?", ACTIVE_KEY, false );
+		registerConfigValue( "ID of the Spreadsheet.", SPREADSHEET_ID_KEY, "" );
+		registerConfigValue( "Name of the Spreadsheet tab.", TAB_NAME_KEY, "" );
 	}
 	
-	private static void printConfig() {
+	public boolean getActive() {
 		
-		LOGGER.info( "Loading \"{}\" Server Config", MOD_NAME );
-		LOGGER.info( "{} = {}", ACTIVE.getPath(), ACTIVE.get() );
-		LOGGER.info( "{} = {}", SPREADSHEETID.getPath(), SPREADSHEETID.get() );
-		LOGGER.info( "{} = {}", TAB_NAME.getPath(), TAB_NAME.get() );
-		LOGGER.info( "\"{}\" Server Config loaded", MOD_NAME );
+		return getValue( Boolean.class, ACTIVE_KEY ).orElseThrow();
 	}
 	
-	public static String getModName() {
+	public String getSpreadsheetID() {
 		
-		return MOD_NAME;
+		return getValue( String.class, SPREADSHEET_ID_KEY ).orElseThrow();
 	}
 	
-	public static boolean getActive() {
+	public String getTabName() {
 		
-		return ACTIVE.get();
-	}
-	
-	public static String getSpreadsheetID() {
-		
-		return SPREADSHEETID.get();
-	}
-	
-	public static String getTabName() {
-		
-		return TAB_NAME.get();
+		return getValue( String.class, TAB_NAME_KEY ).orElseThrow();
 	}
 }

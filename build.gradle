@@ -140,6 +140,9 @@ repositories {
     //     dir 'libs'
     // }
     mavenCentral()
+    maven {
+        url "file:../ModdingMavenRepositories"
+    }
 }
 
 dependencies {
@@ -150,6 +153,11 @@ dependencies {
 
     // Real mod deobf dependency examples - these get remapped to your current mappings
     // implementation fg.deobf("com.tterrag.registrate:Registrate:MC${mc_version}-${registrate_version}") // Adds registrate as a dependency
+
+    implementation fg.deobf("com.yourname.modid:MinecraftForgeAPI:1.0")
+    jarJar fg.deobf("com.yourname.modid:MinecraftForgeAPI:1.0") {
+        jarJar.pin(it, "1.0")
+    }
 
     final def excludeGuava = {
         exclude group: "com.google.guava", module: "guava"
@@ -209,7 +217,7 @@ dependencies {
     jarJar("io.grpc:grpc-context:[1.27.2,)") {
         jarJar.pin(it, "1.27.2")
     }
-    
+
     // Examples using mod jars from ./libs
     // implementation fg.deobf("blank:coolmod-${mc_version}:${coolmod_version}")
 

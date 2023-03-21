@@ -50,8 +50,6 @@ standard as to justify existence in java.lang.
 well known logging systems.
       http://commons.apache.org/proper/commons-logging/
 
-Apache HTTP transport v2 for the Google HTTP Client Library for Java. (1.39.2) - The Apache Software License, Version 2.0
-
 Apache HttpClient (4.5.13) - Apache License, Version 2.0
 Apache HttpComponents Client
 http://hc.apache.org/httpcomponents-client
@@ -140,21 +138,7 @@ Forge Service Provider Interface (6.0.0) - LGPLv2.1
 API for services which can plug into forge, or which are used by forge in other places
 https://github.com/MinecraftForge/ForgeSPI
 
-Google APIs Client Library for Java (1.32.1) - The Apache Software License, Version 2.0
-
-      Google HTTP Client Library for Java (1.39.2) - The Apache Software License, Version 2.0
-      Google HTTP Client Library for Java. Functionality that works on all supported Java platforms,
-including Java 7 (or higher) desktop (SE) and web (EE), Android, and Google App Engine.
-
-      Google OAuth Client Library for Java (1.32.1) - The Apache Software License, Version 2.0
-      Google OAuth Client Library for Java. Functionality that works on all supported Java platforms,
-including Java 7 (or higher) desktop (SE) and web (EE), Android, and Google App Engine.
-
-Google Sheets API v4-rev612-1.25.0 (v4-rev612-1.25.0) - The Apache Software License, Version 2.0
-
 Gson (2.10) - Apache-2.0
-
-GSON extensions to the Google HTTP Client Library for Java. (1.39.2) - The Apache Software License, Version 2.0
 
       Guava InternalFutureFailureAccess and InternalFutures (1.0.1) - The Apache Software License, Version 2.0
       Contains
@@ -195,10 +179,6 @@ much more.
 providing Unicode and Globalization support
       https://icu.unicode.org/
 
-io.grpc:grpc-context (1.27.2) - Apache 2.0
-gRPC: Context
-https://github.com/grpc/grpc-java
-
       J2ObjC Annotations (1.3) - The Apache Software License, Version 2.0
       A set of annotations that provide additional information to the J2ObjC
 translator to modify the result of translation.
@@ -215,8 +195,6 @@ https://github.com/MinecraftForge/JarJar
 JarJarSelector (0.3.19) - LGPL 2.1
 Jar in Jar Utilities including the required NIO FileSystems. SubSystem: JarJarSelector
 https://github.com/MinecraftForge/JarJar
-
-Java 6 (and higher) extensions to the Google OAuth Client Library for Java. (1.32.1) - The Apache Software License, Version 2.0
 
 Java Native Access (5.12.1) - LGPL-2.1-or-later,Apache-2.0
 Java Native Access
@@ -338,18 +316,6 @@ https://github.com/TheElectronWill/Night-Config
 NoException (1.7.1) - Apache License 2.0
 Makes exception handling concise and beautiful, yet architecturally clean and flexible.
 https://noexception.machinezoo.com/
-
-OAuth 2.0 verification code receiver for Google OAuth Client Library for Java. (1.32.1) - The Apache Software License, Version 2.0
-Runs an HTTP server on a free port, waiting for a 
-     redirect with the verification code.
-
-OpenCensus (0.28.0) - The Apache License, Version 2.0
-null
-https://github.com/census-instrumentation/opencensus-java
-
-OpenCensus (0.28.0) - The Apache License, Version 2.0
-null
-https://github.com/census-instrumentation/opencensus-java
 
 OpenJDK Nashorn (15.3) - GPL v2 with the Classpath exception
 Nashorn is an Open Source JavaScript (ECMAScript 5.1 and some 6 features) engine for the JVM.

@@ -1,10 +1,6 @@
 package de.geheimagentnr1.last_played_logger.configs;
 
-import de.geheimagentnr1.last_played_logger.google_integration.SpreadsheetHelper;
-import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.fml.ModLoadingContext;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import de.geheimagentnr1.last_played_logger.google_integration.SpreadsheetLastPlayedWriter;
 import de.geheimagentnr1.minecraft_forge_api.AbstractMod;
 import de.geheimagentnr1.minecraft_forge_api.config.AbstractConfig;
 import net.minecraftforge.fml.config.ModConfig;
@@ -20,9 +16,15 @@ public class ServerConfig extends AbstractConfig {
 	
 	private static final String TAB_NAME_KEY = "tab_name";
 	
-	public ServerConfig( @NotNull ModConfig.Type _type, @NotNull AbstractMod _abstractMod ) {
+	private final SpreadsheetLastPlayedWriter spreadsheetLastPlayedWriter;
+	
+	public ServerConfig(
+		@NotNull ModConfig.Type _type,
+		@NotNull AbstractMod _abstractMod,
+		@NotNull SpreadsheetLastPlayedWriter _spreadsheetLastPlayedWriter ) {
 		
 		super( _type, _abstractMod );
+		spreadsheetLastPlayedWriter = _spreadsheetLastPlayedWriter;
 	}
 	
 	@Override
@@ -31,6 +33,12 @@ public class ServerConfig extends AbstractConfig {
 		registerConfigValue( "Shall the mod be active or not?", ACTIVE_KEY, false );
 		registerConfigValue( "ID of the Spreadsheet.", SPREADSHEET_ID_KEY, "" );
 		registerConfigValue( "Name of the Spreadsheet tab.", TAB_NAME_KEY, "" );
+	}
+	
+	@Override
+	protected void handleConfigChanging() {
+		
+		spreadsheetLastPlayedWriter.initSheetsService();
 	}
 	
 	public boolean getActive() {

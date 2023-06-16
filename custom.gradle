@@ -1,0 +1,81 @@
+repositories {
+    mavenCentral()
+    maven {
+        url = 'https://maven.skaggsm.com/releases'
+    }
+}
+
+dependencies {
+
+    final def exclude = {
+        exclude group: "com.google.guava", module: "guava"
+        exclude group: "commons-codec", module: "commons-codec"
+        exclude group: "com.google.code.gson", module: "gson"
+    }
+
+    implementation("com.google.apis:google-api-services-sheets:${google_api_services_sheets_version}") {
+        exclude
+    }
+    implementation("com.google.api-client:google-api-client:${google_api_client_version}") {
+        exclude
+    }
+    implementation("com.google.oauth-client:google-oauth-client-jetty:${google_oauth_client_jetty_version}") {
+        exclude
+    }
+
+    jarJar("com.google.apis:google-api-services-sheets:[${google_api_services_sheets_version},)") {
+        jarJar.pin(it, "${google_api_services_sheets_version}")
+        transitive = false
+        exclude
+    }
+    jarJar("com.google.api-client:google-api-client:[${google_api_client_version},)") {
+        jarJar.pin(it, "${google_api_client_version}")
+        transitive = false
+        exclude
+    }
+    jarJar("com.google.oauth-client:google-oauth-client-jetty:[${google_oauth_client_jetty_version},)") {
+        jarJar.pin(it, "${google_oauth_client_jetty_version}")
+        transitive = false
+        exclude
+    }
+    jarJar("com.google.oauth-client:google-oauth-client-java6:[1.32.1,)") {
+        jarJar.pin(it, "1.32.1")
+        transitive = false
+    }
+    jarJar("com.google.oauth-client:google-oauth-client:[1.32.1,)") {
+        jarJar.pin(it, "1.32.1")
+        transitive = false
+    }
+    jarJar("com.google.http-client:google-http-client-apache-v2:[1.39.2,)") {
+        jarJar.pin(it, "1.39.2")
+        transitive = false
+    }
+    jarJar("com.google.http-client:google-http-client-gson:[1.39.2,)") {
+        jarJar.pin(it, "1.39.2")
+        transitive = false
+    }
+    jarJar("com.google.http-client:google-http-client:[1.39.2,)") {
+        jarJar.pin(it, "1.39.2")
+        transitive = false
+    }
+    jarJar("com.google.code.findbugs:jsr305:[3.0.2,)") {
+        jarJar.pin(it, "3.0.2")
+        transitive = false
+    }
+    jarJar("com.google.j2objc:j2objc-annotations:[1.3,)") {
+        jarJar.pin(it, "1.3")
+        transitive = false
+    }
+    jarJar("io.opencensus:opencensus-contrib-http-util:[0.28.0,)") {
+        jarJar.pin(it, "0.28.0")
+        transitive = false
+    }
+    jarJar("io.opencensus:opencensus-api:[0.28.0,)") {
+        jarJar.pin(it, "0.28.0")
+        transitive = false
+    }
+    jarJar("io.grpc:grpc-context:[1.27.2,)") {
+        jarJar.pin(it, "1.27.2")
+        transitive = false
+    }
+}

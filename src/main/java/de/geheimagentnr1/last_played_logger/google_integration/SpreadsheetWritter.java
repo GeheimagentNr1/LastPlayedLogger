@@ -13,9 +13,17 @@ import com.google.api.services.sheets.v4.SheetsScopes;
 import com.google.api.services.sheets.v4.model.ValueRange;
 import de.geheimagentnr1.last_played_logger.LastPlayedLogger;
 import de.geheimagentnr1.last_played_logger.configs.ServerConfig;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import de.geheimagentnr1.minecraft_forge_api.AbstractMod;
+import de.geheimagentnr1.minecraft_forge_api.events.ForgeEventHandlerInterface;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
+import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.event.server.ServerStartedEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.config.ModConfig;
+import org.jetbrains.annotations.NotNull;
 
+import javax.annotation.Nullable;
 import java.io.*;
 import java.security.GeneralSecurityException;
 import java.time.LocalDate;
@@ -23,16 +31,37 @@ import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 
-public class SpreadsheetHelper {
+@Log4j2
+@RequiredArgsConstructor
+public class SpreadsheetWritter implements ForgeEventHandlerInterface {
 	
 	
-	private static final Logger LOGGER = LogManager.getLogger( SpreadsheetHelper.class );
+	@NotNull
+	private final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern( "dd.MM.yyyy", Locale.ENGLISH );
 	
-	private static Sheets sheetsService = null;
+	@NotNull
+	private final AbstractMod abstractMod;
 	
-	private static Credential authorize() throws IOException, GeneralSecurityException {
+	@Nullable
+	private ServerConfig serverConfig;
+	
+	private Sheets sheetsService = null;
+	
+	@NotNull
+	private ServerConfig getServerConfig() {
+		
+		if( serverConfig == null ) {
+			serverConfig = abstractMod.getConfig( ModConfig.Type.SERVER, ServerConfig.class )
+				.orElseThrow( () -> new IllegalStateException( "ServerConfig could not be found" ) );
+		}
+		return serverConfig;
+	}
+	
+	@NotNull
+	private Credential authorize() throws IOException, GeneralSecurityException {
 		
 		InputStream inputStream = new FileInputStream(
 			"." + File.separator + LastPlayedLogger.MODID + File.separator + "credentials.json"
@@ -54,37 +83,37 @@ public class SpreadsheetHelper {
 			.authorize( "user" );
 	}
 	
-	public static synchronized void initSheetsService() {
+	public synchronized void initSheetsService() {
 		
-		if( ServerConfig.getActive() ) {
+		if( getServerConfig().getActive() ) {
 			try {
 				Credential credential = authorize();
 				sheetsService = new Sheets.Builder(
 					GoogleNetHttpTransport.newTrustedTransport(),
 					GsonFactory.getDefaultInstance(),
 					credential
-				).setApplicationName( ServerConfig.getModName() )
+				).setApplicationName( abstractMod.getModName() )
 					.build();
 			} catch( IOException | GeneralSecurityException exception ) {
-				LOGGER.error( "Spreadsheet interaction failed", exception );
+				log.error( "Spreadsheet interaction failed", exception );
 			}
 		} else {
 			sheetsService = null;
 		}
 	}
 	
-	public static synchronized void insertOrUpdateUser( String playerName ) {
+	private synchronized void insertOrUpdateUser( @NotNull String playerName ) {
 		
 		if( sheetsService == null ) {
 			return;
 		}
 		try {
-			String range = ServerConfig.getTabName();
+			String range = getServerConfig().getTabName();
 			int index = -1;
 			
 			ValueRange responce = sheetsService.spreadsheets()
 				.values()
-				.get( ServerConfig.getSpreadsheetID(), range )
+				.get( getServerConfig().getSpreadsheetID(), range )
 				.execute();
 			List<List<Object>> users = responce.getValues();
 			if( users != null ) {
@@ -98,12 +127,12 @@ public class SpreadsheetHelper {
 			}
 			if( index > 0 ) {
 				ValueRange body = new ValueRange().setValues( Collections.singletonList( Collections.singletonList(
-					LocalDate.now().format( DateTimeFormatter.ofPattern( "dd.MM.yyyy" ) )
+					LocalDate.now().format( dateTimeFormatter )
 				) ) );
 				sheetsService.spreadsheets()
 					.values()
 					.update(
-						ServerConfig.getSpreadsheetID(),
+						getServerConfig().getSpreadsheetID(),
 						String.format( "%s!B%d", range, index ),
 						body
 					).setValueInputOption( "USER_ENTERED" )
@@ -112,18 +141,34 @@ public class SpreadsheetHelper {
 			} else {
 				ValueRange appendBody = new ValueRange().setValues( Collections.singletonList( Arrays.asList(
 					playerName,
-					LocalDate.now().format( DateTimeFormatter.ofPattern( "dd.MM.yyyy" ) )
+					LocalDate.now().format( dateTimeFormatter )
 				) ) );
 				sheetsService.spreadsheets()
 					.values()
-					.append( ServerConfig.getSpreadsheetID(), range, appendBody )
+					.append( getServerConfig().getSpreadsheetID(), range, appendBody )
 					.setValueInputOption( "USER_ENTERED" )
 					.setInsertDataOption( "INSERT_ROWS" )
 					.setIncludeValuesInResponse( false )
 					.execute();
 			}
 		} catch( IOException exception ) {
-			LOGGER.error( "Spreadsheet interaction failed", exception );
+			log.error( "Spreadsheet interaction failed", exception );
+		}
+	}
+	
+	@SubscribeEvent
+	@Override
+	public void handleServerStartedEvent( @NotNull ServerStartedEvent event ) {
+		
+		initSheetsService();
+	}
+	
+	@SubscribeEvent
+	@Override
+	public void handlePlayerLoggedInEvent( @NotNull PlayerEvent.PlayerLoggedInEvent event ) {
+		
+		if( getServerConfig().getActive() ) {
+			new Thread( () -> insertOrUpdateUser( event.getEntity().getGameProfile().getName() ) ).start();
 		}
 	}
 }

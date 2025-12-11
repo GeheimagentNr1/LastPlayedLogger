@@ -2,37 +2,34 @@ package de.geheimagentnr1.last_played_logger;
 
 import de.geheimagentnr1.last_played_logger.configs.ServerConfig;
 import de.geheimagentnr1.last_played_logger.google_integration.SpreadsheetWritter;
-import de.geheimagentnr1.minecraft_forge_api.AbstractMod;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.ModContainer;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.config.ModConfig;
+import net.neoforged.fml.loading.FMLEnvironment;
+import net.neoforged.neoforge.common.NeoForge;
 import org.jetbrains.annotations.NotNull;
 
 
 @Mod( LastPlayedLogger.MODID )
-public class LastPlayedLogger extends AbstractMod {
+public class LastPlayedLogger {
 	
 	
 	@NotNull
 	public static final String MODID = "last_played_logger";
 	
 	@NotNull
-	@Override
-	public String getModId() {
-		
-		return MODID;
-	}
+	public static final String MOD_NAME = "Last Played Logger";
 	
-	@Override
-	protected void initMod() {
+	public LastPlayedLogger( IEventBus modEventBus, ModContainer modContainer ) {
 		
-		DistExecutor.safeRunWhenOn(
-			Dist.DEDICATED_SERVER,
-			() -> () -> {
-				SpreadsheetWritter spreadsheetWritter =
-					registerEventHandler( new SpreadsheetWritter( this ) );
-				registerConfig( abstractMod -> new ServerConfig( abstractMod, spreadsheetWritter ) );
-			}
-		);
+		if( FMLEnvironment.dist.isDedicatedServer() ) {
+			SpreadsheetWritter spreadsheetWritter = new SpreadsheetWritter();
+			NeoForge.EVENT_BUS.register( spreadsheetWritter );
+			
+			ServerConfig serverConfig = new ServerConfig( spreadsheetWritter );
+			modContainer.registerConfig( ModConfig.Type.SERVER, serverConfig.getSpec() );
+			spreadsheetWritter.setServerConfig( serverConfig );
+		}
 	}
 }

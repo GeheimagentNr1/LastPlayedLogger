@@ -13,14 +13,11 @@ import com.google.api.services.sheets.v4.SheetsScopes;
 import com.google.api.services.sheets.v4.model.ValueRange;
 import de.geheimagentnr1.last_played_logger.LastPlayedLogger;
 import de.geheimagentnr1.last_played_logger.configs.ServerConfig;
-import de.geheimagentnr1.minecraft_forge_api.AbstractMod;
-import de.geheimagentnr1.minecraft_forge_api.events.ForgeEventHandlerInterface;
-import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
-import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.event.server.ServerStartedEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.config.ModConfig;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerEvent;
+import net.neoforged.neoforge.event.server.ServerStartedEvent;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
@@ -35,17 +32,14 @@ import java.util.Locale;
 
 
 @Log4j2
-@RequiredArgsConstructor
-public class SpreadsheetWritter implements ForgeEventHandlerInterface {
+public class SpreadsheetWritter {
 	
 	
 	@NotNull
 	private final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern( "dd.MM.yyyy", Locale.ENGLISH );
 	
-	@NotNull
-	private final AbstractMod abstractMod;
-	
 	@Nullable
+	@Setter
 	private ServerConfig serverConfig;
 	
 	private Sheets sheetsService = null;
@@ -54,8 +48,7 @@ public class SpreadsheetWritter implements ForgeEventHandlerInterface {
 	private ServerConfig getServerConfig() {
 		
 		if( serverConfig == null ) {
-			serverConfig = abstractMod.getConfig( ModConfig.Type.SERVER, ServerConfig.class )
-				.orElseThrow( () -> new IllegalStateException( "ServerConfig could not be found" ) );
+			throw new IllegalStateException( "ServerConfig has not been set" );
 		}
 		return serverConfig;
 	}
@@ -85,14 +78,14 @@ public class SpreadsheetWritter implements ForgeEventHandlerInterface {
 	
 	public synchronized void initSheetsService() {
 		
-		if( getServerConfig().getActive() ) {
+		if( serverConfig != null && getServerConfig().getActive() ) {
 			try {
 				Credential credential = authorize();
 				sheetsService = new Sheets.Builder(
 					GoogleNetHttpTransport.newTrustedTransport(),
 					GsonFactory.getDefaultInstance(),
 					credential
-				).setApplicationName( abstractMod.getModName() )
+				).setApplicationName( LastPlayedLogger.MOD_NAME )
 					.build();
 			} catch( IOException | GeneralSecurityException exception ) {
 				log.error( "Spreadsheet interaction failed", exception );
@@ -157,17 +150,15 @@ public class SpreadsheetWritter implements ForgeEventHandlerInterface {
 	}
 	
 	@SubscribeEvent
-	@Override
 	public void handleServerStartedEvent( @NotNull ServerStartedEvent event ) {
 		
 		initSheetsService();
 	}
 	
 	@SubscribeEvent
-	@Override
 	public void handlePlayerLoggedInEvent( @NotNull PlayerEvent.PlayerLoggedInEvent event ) {
 		
-		if( getServerConfig().getActive() ) {
+		if( serverConfig != null && getServerConfig().getActive() ) {
 			new Thread( () -> insertOrUpdateUser( event.getEntity().getGameProfile().getName() ) ).start();
 		}
 	}

@@ -1,13 +1,18 @@
 package de.geheimagentnr1.last_played_logger.configs;
 
+import de.geheimagentnr1.last_played_logger.LastPlayedLogger;
 import de.geheimagentnr1.last_played_logger.google_integration.SpreadsheetWritter;
-import de.geheimagentnr1.minecraft_forge_api.AbstractMod;
-import de.geheimagentnr1.minecraft_forge_api.config.AbstractConfig;
-import net.minecraftforge.fml.config.ModConfig;
+import lombok.Getter;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.fml.event.config.ModConfigEvent;
+import net.neoforged.neoforge.common.ModConfigSpec;
 import org.jetbrains.annotations.NotNull;
 
 
-public class ServerConfig extends AbstractConfig {
+@SuppressWarnings( "removal" )
+@EventBusSubscriber( modid = LastPlayedLogger.MODID, bus = EventBusSubscriber.Bus.MOD )
+public class ServerConfig {
 	
 	
 	@NotNull
@@ -22,53 +27,73 @@ public class ServerConfig extends AbstractConfig {
 	@NotNull
 	private final SpreadsheetWritter spreadsheetWritter;
 	
-	public ServerConfig( @NotNull AbstractMod _abstractMod, @NotNull SpreadsheetWritter _spreadsheetWritter ) {
-		
-		super( _abstractMod );
-		spreadsheetWritter = _spreadsheetWritter;
-	}
+	@NotNull
+	@Getter
+	private final ModConfigSpec spec;
 	
 	@NotNull
-	@Override
-	public ModConfig.Type type() {
-		
-		return ModConfig.Type.SERVER;
-	}
+	private final ModConfigSpec.BooleanValue activeValue;
 	
-	@Override
-	public boolean isEarlyLoad() {
-		
-		return false;
-	}
+	@NotNull
+	private final ModConfigSpec.ConfigValue<String> spreadsheetIdValue;
 	
-	@Override
-	protected void registerConfigValues() {
-		
-		registerConfigValue( "Shall the mod be active or not?", ACTIVE_KEY, false );
-		registerConfigValue( "ID of the Spreadsheet.", SPREADSHEET_ID_KEY, "" );
-		registerConfigValue( "Name of the Spreadsheet tab.", TAB_NAME_KEY, "" );
-	}
+	@NotNull
+	private final ModConfigSpec.ConfigValue<String> tabNameValue;
 	
-	@Override
-	protected void handleConfigChanging() {
+	private static ServerConfig instance;
+	
+	public ServerConfig( @NotNull SpreadsheetWritter _spreadsheetWritter ) {
 		
-		spreadsheetWritter.initSheetsService();
+		spreadsheetWritter = _spreadsheetWritter;
+		instance = this;
+		
+		ModConfigSpec.Builder builder = new ModConfigSpec.Builder();
+		
+		activeValue = builder
+			.comment( "Shall the mod be active or not?" )
+			.define( ACTIVE_KEY, false );
+		
+		spreadsheetIdValue = builder
+			.comment( "ID of the Spreadsheet." )
+			.define( SPREADSHEET_ID_KEY, "" );
+		
+		tabNameValue = builder
+			.comment( "Name of the Spreadsheet tab." )
+			.define( TAB_NAME_KEY, "" );
+		
+		spec = builder.build();
 	}
 	
 	public boolean getActive() {
 		
-		return getValue( Boolean.class, ACTIVE_KEY );
+		return activeValue.get();
 	}
 	
 	@NotNull
 	public String getSpreadsheetID() {
 		
-		return getValue( String.class, SPREADSHEET_ID_KEY );
+		return spreadsheetIdValue.get();
 	}
 	
 	@NotNull
 	public String getTabName() {
 		
-		return getValue( String.class, TAB_NAME_KEY );
+		return tabNameValue.get();
+	}
+	
+	@SubscribeEvent
+	public static void onConfigLoad( ModConfigEvent.Loading event ) {
+		
+		if( instance != null ) {
+			instance.spreadsheetWritter.initSheetsService();
+		}
+	}
+	
+	@SubscribeEvent
+	public static void onConfigReload( ModConfigEvent.Reloading event ) {
+		
+		if( instance != null ) {
+			instance.spreadsheetWritter.initSheetsService();
+		}
 	}
 }

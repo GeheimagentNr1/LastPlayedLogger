@@ -6,7 +6,7 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
-import net.neoforged.fml.loading.FMLEnvironment;
+import net.neoforged.fml.loading.FMLLoader;
 import net.neoforged.neoforge.common.NeoForge;
 import org.jetbrains.annotations.NotNull;
 
@@ -23,7 +23,7 @@ public class LastPlayedLogger {
 	
 	public LastPlayedLogger( IEventBus modEventBus, ModContainer modContainer ) {
 		
-		if( FMLEnvironment.dist.isDedicatedServer() ) {
+		if( FMLLoader.getDist().isDedicatedServer() ) {
 			SpreadsheetWritter spreadsheetWritter = new SpreadsheetWritter();
 			NeoForge.EVENT_BUS.register( spreadsheetWritter );
 			

@@ -33,7 +33,7 @@ src/main/java/de/geheimagentnr1/last_played_logger/
 
 ## Besonderheiten
 
-- **Server-Only**: `usableOnClientSide=false`
+- **Server-Only**: `@Mod( value = MODID, dist = Dist.DEDICATED_SERVER )` — lädt nur auf dedizierten Servern
 - **Google Integration**: Schreibt Daten in Google Spreadsheets
 - **OAuth**: Benötigt Google OAuth Credentials
 
@@ -108,3 +108,7 @@ Der Workflow `.github/workflows/build-and-test.yml` führt automatisch aus:
 | Commands | ✅ | GameTest |
 | Block/Item-Verhalten | ✅ | GameTest |
 | Multi-MC-Version | ⚠️ Pro Branch | CI Matrix |
+
+## Referenzen
+
+- [NeoForge Migration Primer](https://docs.neoforged.net/primer/docs/) — Dokumentiert API-Aenderungen zwischen Minecraft/NeoForge-Versionen; nuetzlich fuer die Pruefung von Breaking Changes beim Upgrade auf neue Versionen

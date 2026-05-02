@@ -159,7 +159,7 @@ public class SpreadsheetWritter {
 	public void handlePlayerLoggedInEvent( @NotNull PlayerEvent.PlayerLoggedInEvent event ) {
 		
 		if( serverConfig != null && getServerConfig().getActive() ) {
-			new Thread( () -> insertOrUpdateUser( event.getEntity().getGameProfile().getName() ) ).start();
+			new Thread( () -> insertOrUpdateUser( event.getEntity().getName().getString() ) ).start();
 		}
 	}
 }

@@ -2,13 +2,18 @@
 
 ## Projekt-Übersicht
 
-**Last Played Logger** ist ein NeoForge Minecraft Mod für Minecraft 1.21.1.
+**Last Played Logger** ist ein NeoForge Minecraft Mod.
 - **Mod ID**: `last_played_logger`
 - **Package**: `de.geheimagentnr1.last_played_logger`
-- **Java Version**: 21
-- **NeoForge Version**: 21.1.x
+- **Java Version**: 21 (`develop_26.1`: 25, `jdk-25.0.4.7-hotspot`)
 
 Loggt das letzte Datum, an dem ein Spieler online war, in ein Google Spreadsheet.
+
+| Branch | MC | Range | NeoForge (kompiliert gegen) | Hinweis |
+|---|---|---|---|---|
+| `develop_1.21.1` | 1.21.1 - 1.21.10 | `[1.21.1,1.21.10]` | 21.1.x | Release `1.21.1-3.0.1` |
+| `develop_1.21.11` | 1.21.11 | `[1.21.11,1.21.12)` | `21.11.45` | `@EventBusSubscriber(bus = ...)` (seit 1.21.6 entfernt) weggelassen, GameTests entfernt |
+| `develop_26.1` | 26.1 - 26.3 | `[26.1,27)` | `26.1.0.19-beta` (Java 25) | Aufbauend auf `develop_1.21.11`, nur Tooling (Java 25 / Gradle 9.2.1 / moddev 2.0.147 / Lombok 1.18.48); Bytecode identisch für 26.1 - 26.3. Die Google-Bibliotheken nutzen Guava/Gson aus Minecraft, deshalb mit echtem Spreadsheet-Login testen |
 
 ## Abhängigkeiten
 
@@ -68,7 +73,7 @@ Verschiedene Java-Versionen sind unter `C:\Program Files\Eclipse Adoptium` insta
 
 ```powershell
 # Java 21 für MC 1.20.5+ (NeoForge)
-$env:JAVA_HOME = "C:\Program Files\Eclipse Adoptium\jdk-21.0.9.10-hotspot"
+$env:JAVA_HOME = "C:\Program Files\Eclipse Adoptium\jdk-21.0.12.8-hotspot"
 ./gradlew build
 ```
 
@@ -84,20 +89,17 @@ Tests liegen unter `src/test/java/`. Ergebnisse: `build/reports/tests/test/index
 
 ### NeoForge GameTest Framework
 
-Für Integration Tests in einer echten Minecraft-Umgebung:
+Ab `develop_1.21.11` gibt es keine GameTests mehr (trivialer Smoke-Test samt Run-Config und CI-Job entfernt).
 
-```bash
-./gradlew runGameTestServer
-```
+### Ingame-Test
 
-GameTest-Klassen werden mit `@GameTestHolder` annotiert und liegen unter `src/main/java/.../elements/gametests/`.
+Testpack mit `last_played_logger/credentials.json` + `StoredCredential` (Server-Ordner) und aktiver `world/serverconfig/last_played_logger-server.toml`; nach dem Login steht im Spreadsheet-Tab der Spielername mit dem heutigen Datum (neu angelegt oder aktualisiert). Der Mod ist server-only, die Client-Instanz braucht ihn nicht.
 
 ### CI/CD (GitHub Actions)
 
 Der Workflow `.github/workflows/build-and-test.yml` führt automatisch aus:
 1. **Build**: Kompiliert den Mod
 2. **Unit Tests**: Führt JUnit Tests aus
-3. **GameTests**: Startet GameTestServer (optional)
 
 ### Was kann automatisiert getestet werden?
 
@@ -112,3 +114,9 @@ Der Workflow `.github/workflows/build-and-test.yml` führt automatisch aus:
 ## Referenzen
 
 - [NeoForge Migration Primer](https://docs.neoforged.net/primer/docs/) — Dokumentiert API-Aenderungen zwischen Minecraft/NeoForge-Versionen; nuetzlich fuer die Pruefung von Breaking Changes beim Upgrade auf neue Versionen
+
+---
+
+## Wissensdatenbank
+
+Versionsübergreifende Migrations- und Entwicklungs-Erkenntnisse (Breaking Changes, Fixes, Testumgebungs-Patterns) werden zentral in [`../Docs/`](../Docs/) gepflegt. Bei neuen relevanten Erkenntnissen dort ergänzen, nicht nur hier.

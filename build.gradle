@@ -4,7 +4,7 @@ plugins {
     id 'eclipse'
     id 'idea'
     id 'maven-publish'
-    id 'net.neoforged.moddev' version '2.0.+'
+    id 'net.neoforged.moddev' version '2.0.147'
     id("com.jaredsburrows.license") version "0.+"
     id 'io.github.CDAGaming.cursegradle' version '1.+'
     id "com.modrinth.minotaur" version "2.+"
@@ -33,8 +33,8 @@ copyLicenses.dependsOn("licenseReport")
 
 apply from: "custom.gradle"
 
-// Mojang ships Java 21 to end users in 1.20.5+, so your mod should target Java 21.
-java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+// Minecraft 26.x requires Java 25, so the mod targets Java 25.
+java.toolchain.languageVersion = JavaLanguageVersion.of(25)
 
 println "Java: ${System.getProperty 'java.version'}, JVM: ${System.getProperty 'java.vm.version'} (${System.getProperty 'java.vendor'}), Arch: ${System.getProperty 'os.arch'}"
 
@@ -46,22 +46,16 @@ neoForge {
         client {
             client()
             // Comma-separated list of namespaces to load gametests from. Empty = all namespaces.
-            systemProperty 'neoforge.enabledGameTestNamespaces', mod_id
         }
 
         server {
             server()
-            systemProperty 'neoforge.enabledGameTestNamespaces', mod_id
             programArgument '--nogui'
         }
 
         // This run config launches GameTestServer and runs all registered gametests, then exits.
         // By default, the server will crash when no gametests are provided.
         // The gametest system is also enabled by default for other run configs under the /test command.
-        gameTestServer {
-            type = "gameTestServer"
-            systemProperty 'neoforge.enabledGameTestNamespaces', mod_id
-        }
 
         data {
             data()
@@ -91,7 +85,7 @@ repositories {
     // }
     maven {
         name "local-test-repo"
-        url "file:" + project.projectDir.toString() + "/" + local_repository_path
+        url file( local_repository_path ).toURI()
     }
 }
 
@@ -105,6 +99,14 @@ dependencies {
 
     testCompileOnly "org.projectlombok:lombok:${lombok_version}"
     testAnnotationProcessor "org.projectlombok:lombok:${lombok_version}"
+
+    //JUnit 5
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.2'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+test {
+    useJUnitPlatform()
 }
 
 // This block of code expands all declared replace properties in the specified resource targets.
@@ -157,7 +159,7 @@ publishing {
     repositories {
         maven {
             name "local-test-repo"
-            url "file:" + project.projectDir.toString() + "/" + local_repository_path
+            url file( local_repository_path ).toURI()
         }
     }
 }

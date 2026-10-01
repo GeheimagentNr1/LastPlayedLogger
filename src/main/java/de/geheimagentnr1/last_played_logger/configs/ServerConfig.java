@@ -10,8 +10,7 @@ import net.neoforged.neoforge.common.ModConfigSpec;
 import org.jetbrains.annotations.NotNull;
 
 
-@SuppressWarnings( "removal" )
-@EventBusSubscriber( modid = LastPlayedLogger.MODID, bus = EventBusSubscriber.Bus.MOD )
+@EventBusSubscriber( modid = LastPlayedLogger.MODID )
 public class ServerConfig {
 	
 	

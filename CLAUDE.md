@@ -1,114 +1,51 @@
 # CLAUDE.md - Last Played Logger
 
-## Projekt-Übersicht
+Schreibt bei jedem Login eines Spielers dessen Namen und das aktuelle Datum (`dd.MM.yyyy`) in ein Google Spreadsheet (vorhandene Zeile aktualisieren, sonst neue anhängen). Mod-ID `last_played_logger`, Package `de.geheimagentnr1.last_played_logger` (Forge bis `develop_1.19.2`: noch `de.geheimagent.last_played_logger`). Server-only: NeoForge `@Mod( value = MODID, dist = Dist.DEDICATED_SERVER )`, Forge ab 1.20 über `DistExecutor.safeRunWhenOn( Dist.DEDICATED_SERVER, .. )`, ältere Forge-Branches über `@Mod.EventBusSubscriber( value = Dist.DEDICATED_SERVER )` am Event-Handler; `displayTest=IGNORE_SERVER_VERSION`, Clients brauchen den Mod nicht.
 
-**Last Played Logger** ist ein NeoForge Minecraft Mod für Minecraft 1.21.1.
-- **Mod ID**: `last_played_logger`
-- **Package**: `de.geheimagentnr1.last_played_logger`
-- **Java Version**: 21
-- **NeoForge Version**: 21.1.x
+Diese Datei ist auf allen `develop_*`-Branches identisch; Quelle: `../Docs/mod-claude/LastPlayedLogger.md` (Änderungen dort, dann `Docs/tools/sync_mod_claude_md.sh`). Versionsstand: [`../Docs/VERSIONEN.md`](../Docs/VERSIONEN.md).
 
-Loggt das letzte Datum, an dem ein Spieler online war, in ein Google Spreadsheet.
+## Versionen
+
+- Forge: `develop_1.14.4` bis `develop_1.21`, dazu `develop_1.21.1_forge`. `develop_1.21.3` ist ein alter, nur lokaler Forge-Stand, kein NeoForge-Port.
+- NeoForge: `develop_1.21.1` (1.21.1 - 1.21.10), `develop_1.21.11`, `develop_26.1` (ein Jar 26.1 - 26.3, nur Tooling-Änderungen, Bytecode identisch).
+- Ranges und Tags: [`../Docs/VERSIONEN.md`](../Docs/VERSIONEN.md).
 
 ## Abhängigkeiten
 
-Keine Mod-Abhängigkeiten - eigenständiger Mod.
+- Keine Mod-Abhängigkeiten. Forge ab 1.20: MinecraftForgeAPI per `jarJar` (siehe [`../Docs/forge/README.md`](../Docs/forge/README.md)).
+- Gebündelt per `jarJar` (`custom.gradle`): `google-api-services-sheets`, `google-api-client`, `google-oauth-client-jetty` sowie deren Laufzeit-Abhängigkeiten (`google-oauth-client(-java6)`, `google-http-client(-gson, -apache-v2)`, `opencensus-*`, `grpc-context`), jeweils `transitive = false`.
+- **Nicht** gebündelt (per `exclude`): Guava, Gson, commons-codec, j2objc, jsr305 - kommen aus Minecraft.
 
-## Externe Libraries
+## Architektur
 
-- **Google API Services Sheets**
-- **Google API Client**
-- **Google OAuth Client Jetty**
+- `LastPlayedLogger` - Hauptklasse; erzeugt `SpreadsheetWritter`, registriert ihn auf dem Game-Bus und die Server-Config.
+- `configs/ServerConfig` - Server-Config; lauscht auf `ModConfigEvent.Loading`/`Reloading` und initialisiert dann den Sheets-Dienst neu (bis 1.21.10 `@EventBusSubscriber( bus = Bus.MOD )`, ab 1.21.11 ohne `bus`).
+- `google_integration/SpreadsheetWritter` - OAuth (`GoogleAuthorizationCodeFlow` + `LocalServerReceiver`), Sheets-Client; `ServerStartedEvent` → `initSheetsService()`, `PlayerLoggedInEvent` → `insertOrUpdateUser(..)` in eigenem Thread (nur wenn `active`).
+- Forge bis 1.19.4: `google_integration/SpreadsheetHelper` und `handlers/ForgeEventHandler`/`ModEventHandler` statt `SpreadsheetWritter`.
 
-## Projektstruktur
+## Funktionen, Befehle, Konfiguration
 
-```
-src/main/java/de/geheimagentnr1/last_played_logger/
-├── LastPlayedLogger.java              # Haupt-Mod-Klasse
-├── configs/
-│   └── ServerConfig.java              # Server-Konfiguration
-└── google_integration/
-    └── SpreadsheetWritter.java        # Google Sheets Integration
-```
+- Keine Befehle, keine Welt-Daten.
+- Server-Config `world/serverconfig/last_played_logger-server.toml`: `active` (Standard `false`), `spreadsheetID`, `tab_name`.
+- Dateien im Server-Arbeitsverzeichnis: `last_played_logger/credentials.json` (OAuth-Client von Google, vom Betreiber bereitgestellt) und der Token-Speicher `last_played_logger/StoredCredential` (`FileDataStoreFactory`). Ohne gültigen Token startet beim ersten Zugriff der OAuth-Ablauf mit lokalem Empfänger (Login im Browser nötig).
+- **Credentials und Token sind Geheimnisse** - nie ausgeben, committen oder in Logs/Docs kopieren.
 
-## Besonderheiten
+## Fallstricke
 
-- **Server-Only**: `@Mod( value = MODID, dist = Dist.DEDICATED_SERVER )` — lädt nur auf dedizierten Servern
-- **Google Integration**: Schreibt Daten in Google Spreadsheets
-- **OAuth**: Benötigt Google OAuth Credentials
+- Spielername über `entity.getName().getString()`, nicht `GameProfile.getName()` (authlib-`GameProfile` wurde zum Record, Methode fehlt in neueren Versionen).
+- 1.21.11: `@EventBusSubscriber( bus = .. )` gibt es nicht mehr (seit NeoForge 21.6) - ohne `bus` registrieren.
+- Die Google-Bibliotheken nutzen Guava/Gson aus Minecraft; bei jedem Port (v. a. 26.x) mit echtem Spreadsheet-Login testen, ein grüner Build reicht nicht.
+- Testpacks ohne gültigen Token erzeugen `TokenResponse`-Fehler im Log; `../Docs/testing/tools/pack.sh` filtert diese (`last_played_logger`) bewusst heraus.
 
-## Code-Stil
+## Testen
 
-- **Annotations**: `@NotNull` aus `org.jetbrains.annotations`
-- **Lombok**: Projekt nutzt Lombok
-- **Formatierung**: Leerzeichen nach `(` und vor `)` bei Methodenaufrufen
+- Testpack mit `last_played_logger/credentials.json` + `StoredCredential` im Server-Ordner und `active = true` in der Server-Config; nach dem Login muss im Spreadsheet-Tab der Spielername mit dem heutigen Datum stehen (neu angelegt oder aktualisiert).
+- Nur in den Server-Testpack kopieren, die Client-Instanz braucht den Mod nicht (Client-Start ohne Absturz trotzdem prüfen, Mod lädt dort nicht).
+- GameTests gibt es ab `develop_1.21.11` nicht mehr, nur JUnit. Allgemein: [`../Docs/testing/README.md`](../Docs/testing/README.md).
 
-## Build & Test
+## Links
 
-```bash
-./gradlew build
-./gradlew runServer
-```
-
-## Deployment
-
-- **CurseForge**: `./gradlew curseforge`
-- **Modrinth**: `./gradlew modrinth`
-
-## Wichtige Hinweise
-
-1. **Google Credentials**: Benötigt Google API Credentials für Spreadsheet-Zugriff
-2. **OAuth Setup**: Erfordert OAuth-Konfiguration
-
-## Testing
-
-### Java-Versionen
-
-Verschiedene Java-Versionen sind unter `C:\Program Files\Eclipse Adoptium` installiert. Für einen Gradle-Build muss die passende Java-Version gewählt werden:
-
-```powershell
-# Java 21 für MC 1.20.5+ (NeoForge)
-$env:JAVA_HOME = "C:\Program Files\Eclipse Adoptium\jdk-21.0.9.10-hotspot"
-./gradlew build
-```
-
-### Unit Tests (JUnit 5)
-
-Für reine Logik-Tests ohne Minecraft-Abhängigkeiten:
-
-```bash
-./gradlew test
-```
-
-Tests liegen unter `src/test/java/`. Ergebnisse: `build/reports/tests/test/index.html`
-
-### NeoForge GameTest Framework
-
-Für Integration Tests in einer echten Minecraft-Umgebung:
-
-```bash
-./gradlew runGameTestServer
-```
-
-GameTest-Klassen werden mit `@GameTestHolder` annotiert und liegen unter `src/main/java/.../elements/gametests/`.
-
-### CI/CD (GitHub Actions)
-
-Der Workflow `.github/workflows/build-and-test.yml` führt automatisch aus:
-1. **Build**: Kompiliert den Mod
-2. **Unit Tests**: Führt JUnit Tests aus
-3. **GameTests**: Startet GameTestServer (optional)
-
-### Was kann automatisiert getestet werden?
-
-| Aspekt | Automatisiert? | Methode |
-|--------|----------------|---------|
-| Utility-Klassen | ✅ | JUnit |
-| Config-Parsing | ✅ | JUnit |
-| Commands | ✅ | GameTest |
-| Block/Item-Verhalten | ✅ | GameTest |
-| Multi-MC-Version | ⚠️ Pro Branch | CI Matrix |
-
-## Referenzen
-
-- [NeoForge Migration Primer](https://docs.neoforged.net/primer/docs/) — Dokumentiert API-Aenderungen zwischen Minecraft/NeoForge-Versionen; nuetzlich fuer die Pruefung von Breaking Changes beim Upgrade auf neue Versionen
+- Wiki: https://github.com/GeheimagentNr1/LastPlayedLogger/wiki
+- CurseForge: https://www.curseforge.com/minecraft/mc-mods/last-played-logger (Projekt-ID 389500)
+- Modrinth: https://modrinth.com/mod/fQmzuyuH
+- [`../Docs/migrations/BREAKING_CHANGES.md`](../Docs/migrations/BREAKING_CHANGES.md), [`../Docs/migrations/1.21.10-to-1.21.11.md`](../Docs/migrations/1.21.10-to-1.21.11.md)

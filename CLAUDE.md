@@ -7,7 +7,7 @@ Diese Datei ist auf allen `develop_*`-Branches identisch; Quelle: `../Docs/mod-c
 ## Versionen
 
 - Forge: `develop_1.14.4` bis `develop_1.21`, dazu `develop_1.21.1_forge`.
-- NeoForge: `develop_1.21.1` (1.21.1 - 1.21.10), `develop_1.21.11`, `develop_26.1` (ein Jar 26.1 - 26.3, nur Tooling-Änderungen, Bytecode identisch).
+- NeoForge: `develop_1.21.1` (1.21.1 - 1.21.10), `develop_1.21.11`, `develop_26.1` (26.1 - 26.2, nur Tooling-Änderungen, Bytecode identisch), `develop_26.3` (ab NeoForge 26.3.0.37-beta: Config-Typ `SYNCED` statt `SERVER` mit altem Dateinamen `<modid>-server.toml`, alte `world/serverconfig/`-Datei wird auf Dedicated Servern einmalig nach `world/syncedconfig/` kopiert - `config/ServerConfigRegistration`, `config/LegacyServerConfigMigration`, 2026-10-19).
 - Ranges und Tags: [`../Docs/VERSIONEN.md`](../Docs/VERSIONEN.md).
 
 ## Abhängigkeiten

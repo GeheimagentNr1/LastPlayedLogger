@@ -1,12 +1,12 @@
 package de.geheimagentnr1.last_played_logger;
 
+import de.geheimagentnr1.last_played_logger.configs.ServerConfigRegistration;
 import de.geheimagentnr1.last_played_logger.configs.ServerConfig;
 import de.geheimagentnr1.last_played_logger.google_integration.SpreadsheetWritter;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
-import net.neoforged.fml.config.ModConfig;
 import net.neoforged.neoforge.common.NeoForge;
 import org.jetbrains.annotations.NotNull;
 
@@ -27,7 +27,7 @@ public class LastPlayedLogger {
 		NeoForge.EVENT_BUS.register( spreadsheetWritter );
 
 		ServerConfig serverConfig = new ServerConfig( spreadsheetWritter );
-		modContainer.registerConfig( ModConfig.Type.SERVER, serverConfig.getSpec() );
+		ServerConfigRegistration.register( modContainer, serverConfig.getSpec() );
 		spreadsheetWritter.setServerConfig( serverConfig );
 	}
 }
